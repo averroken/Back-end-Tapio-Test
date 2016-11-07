@@ -1,20 +1,20 @@
-const express = require('express');
-const stormpath = require('express-stormpath');
+const restify = require('restify');
+var host = process.env.HOST || 'localhost';
+var port = process.env.PORT || 8080;
 
-var app = express();
+var server = restify.createServer({
+  name: 'Things API server'
+});
 
-app.use(stormpath.init(app,{
-  expand: {
-    customData: true
-  }
-}));
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
 
-app.get('/', stormpath.getUser, function(req, res) {
-  res.status(200).send("Welcome");
+server.use(function logger(req, res) {
+  console.log(new Date(), req.method, req.url);
+  next();
+});
+
+server.on('uncaughtExceeption', function (request, response, route, error) {
+    console.error(error.stack);
+    response.send(error);
 })
-
-app.on('stormpath.ready', function () {
-  console.log('stormpath ready');
-})
-
-app.listen(process.env.PORT || 3000);
