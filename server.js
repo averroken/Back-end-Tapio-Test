@@ -4,7 +4,7 @@ const _ = require('underscore');
 var mongodb = require('mongodb');
 const stormpathRestify = require('stormpath-restify');
 var stormpathFilters = stormpathRestify.createFilterSet();
-var oauthFilter = stormpathFilters.createOauthFitler();
+var oauthFilter = stormpathFilters.createOauthFilter();
 
 var port = process.env.PORT || 8080;
 var ObjectID = mongodb.ObjectID;
