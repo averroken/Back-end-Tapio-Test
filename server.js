@@ -18,6 +18,6 @@ server.on('uncaughtExceeption', function (request, response, route, error) {
     response.send(error);
 });
 
-server.listen(port, host, function () {
+server.listen(port, function () {
   console.log('listening on %s',server.url);
 });
