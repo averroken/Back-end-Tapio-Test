@@ -47,7 +47,7 @@ function handleError(res, reason, message, code){
     res.status(code || 500).json({"error" : message});
 }
 
-app.get('/api', function(req, res) {
+server.get('/api', function(req, res) {
     db.collection(COLLECTION).find({}).toArray(function (err, docs) {
         if (err){
             handleError(res, err.message, "Failed to get api.");
