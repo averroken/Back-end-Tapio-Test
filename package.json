@@ -1,0 +1,19 @@
+{
+  "name": "back-end-tapio-test",
+  "version": "0.0.1",
+  "description": "Back-end Tapio with OAth test (via Stormpath)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NMCT-Project/Back-end-Tapio-Test.git"
+  },
+  "author": "Brian Masschaele",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NMCT-Project/Back-end-Tapio-Test/issues"
+  },
+  "homepage": "https://github.com/NMCT-Project/Back-end-Tapio-Test#readme"
+}
