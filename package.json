@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/NMCT-Project/Back-end-Tapio-Test#readme",
   "dependencies": {
-    "express": "^4.14.0",
-    "express-stormpath": "^3.1.6"
+    "restify": "^4.2.0",
+    "stormpath-restify": "^0.1.0",
+    "underscore": "^1.8.3",
+    "uuid": "^2.0.3"
   }
 }
