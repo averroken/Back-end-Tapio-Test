@@ -62,11 +62,12 @@ server.get('/api', function(req, res, next) {
 });
 
 server.get('/auth', [oauthFilter, function(req, res) {
-    db.collection(COLLECTION).find({}).toArray(function (err, docs) {
-        if (err){
-            handleError(res, err.message, "Failed to get api.");
-        }else{
-            res.status(200).json({"auth":docs});
-        }
-    });
+  db.collection(COLLECTION).find({}).toArray(function (err, docs) {
+      //if (err){
+      //    handleError(res, err.message, "Failed to get api.");
+      //}else{
+          res.send({"auth":docs});
+          return next();
+      //}
+  });
 }]);
