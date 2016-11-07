@@ -5,7 +5,7 @@ var mongodb = require('mongodb');
 
 var port = process.env.PORT || 8080;
 var ObjectID = mongodb.ObjectID;
-var COLLECTION = 'Test';
+var COLLECTION = 'landmarks';
 var db;
 
 
