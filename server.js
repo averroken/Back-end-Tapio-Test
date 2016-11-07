@@ -3,6 +3,7 @@ var host = process.env.HOST || 'localhost';
 var port = process.env.PORT || 8080;
 
 var server = restify.createServer({
+  console.log(host + "|" port);
   name: 'Things API server'
 });
 
