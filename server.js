@@ -50,13 +50,14 @@ function handleError(res, reason, message, code){
     res.status(code || 500).json({"error" : message});
 }
 
-server.get('/api', function(req, res) {
+server.get('/api', function(req, res, next) {
     db.collection(COLLECTION).find({}).toArray(function (err, docs) {
-        if (err){
-            handleError(res, err.message, "Failed to get api.");
-        }else{
-            res.status(200).json({"api":docs});
-        }
+        //if (err){
+        //    handleError(res, err.message, "Failed to get api.");
+        //}else{
+            res.send({"api":docs});
+            return next();
+        //}
     });
 });
 
