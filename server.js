@@ -5,6 +5,7 @@ var mongodb = require('mongodb');
 const stormpathRestify = require('stormpath-restify');
 var stormpathFilters = stormpathRestify.createFilterSet();
 var oauthFilter = stormpathFilters.createOauthFilter();
+var newAccountFilter = stormpathFilters.newAccountFilter();
 
 var port = process.env.PORT || 8080;
 var ObjectID = mongodb.ObjectID;
@@ -71,3 +72,7 @@ server.get('/auth', [oauthFilter, function(req, res) {
       //}
   });
 }]);
+
+server.post('/accounts', [newAccountFilter, function (req, res) {
+  res.send({res});
+}])
