@@ -3,9 +3,8 @@ var host = process.env.HOST || 'localhost';
 var port = process.env.PORT || 8080;
 
 var server = restify.createServer({
-  console.log(host + "|" port);
   name: 'Things API server'
-});
+},   console.log(host + "|" port));
 
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
