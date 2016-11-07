@@ -2,6 +2,9 @@ const restify = require('restify');
 const uuid = require('uuid');
 const _ = require('underscore');
 var mongodb = require('mongodb');
+const stormpathRestify = require('stormpath-restify');
+var stormpathFilters = stormpathRestify.createFilterSet();
+var oauthFilter = stormpathFilters.createOauthFitler();
 
 var port = process.env.PORT || 8080;
 var ObjectID = mongodb.ObjectID;
@@ -56,3 +59,13 @@ server.get('/api', function(req, res) {
         }
     });
 });
+
+server.get('/auth', [oauthFilter, function(req, res) {
+    db.collection(COLLECTION).find({}).toArray(function (err, docs) {
+        if (err){
+            handleError(res, err.message, "Failed to get api.");
+        }else{
+            res.status(200).json({"auth":docs});
+        }
+    });
+}]);
