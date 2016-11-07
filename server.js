@@ -1,5 +1,4 @@
 const restify = require('restify');
-var host = process.env.HOST || 'localhost';
 var port = process.env.PORT || 8080;
 
 var server = restify.createServer({
@@ -20,5 +19,5 @@ server.on('uncaughtExceeption', function (request, response, route, error) {
 });
 
 server.listen(port, host, function () {
-  console.log('%s listening at %s', server.name, server.url);
+  console.log('listening on %s',server.url);
 });
