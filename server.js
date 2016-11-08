@@ -20,7 +20,7 @@ var server = restify.createServer({
 server.use(stormpath.init(server, {
   web: {
     oauth2: {
-      password: {
+      client_credentials: {
         accessToken: {
           ttl: 3600
         }
