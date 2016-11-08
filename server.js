@@ -2,7 +2,6 @@ const restify = require('restify');
 const uuid = require('uuid');
 const _ = require('underscore');
 var mongodb = require('mongodb');
-const stormpath = require('stormpath');
 const stormpathRestify = require('stormpath-restify');
 var stormpathFilters = stormpathRestify.createFilterSet();
 var oauthFilter = stormpathFilters.createOauthFilter();
@@ -17,18 +16,6 @@ var db;
 var server = restify.createServer({
   name: 'Things API server'
 });
-
-server.use(stormpath.init(server, {
-  web: {
-    oauth2: {
-      client_credentials: {
-        accessToken: {
-          ttl: 3600
-        }
-      }
-    }
-  }
-}));
 
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
