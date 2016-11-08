@@ -17,6 +17,18 @@ var server = restify.createServer({
   name: 'Things API server'
 });
 
+server.use(stormpath.init(server, {
+  web: {
+    oauth2: {
+      password: {
+        accessToken: {
+          ttl: 3600
+        }
+      }
+    }
+  }
+}));
+
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
