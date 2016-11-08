@@ -2,6 +2,7 @@ const restify = require('restify');
 const uuid = require('uuid');
 const _ = require('underscore');
 var mongodb = require('mongodb');
+const stormpath = require('stormpath');
 const stormpathRestify = require('stormpath-restify');
 var stormpathFilters = stormpathRestify.createFilterSet();
 var oauthFilter = stormpathFilters.createOauthFilter();
