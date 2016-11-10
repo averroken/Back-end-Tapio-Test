@@ -1,0 +1,27 @@
+{
+  "name": "back-end-tapio-test",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NMCT-Project/Back-end-Tapio-Test.git"
+  },
+  "author": "Brian Masschaele",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NMCT-Project/Back-end-Tapio-Test/issues"
+  },
+  "homepage": "https://github.com/NMCT-Project/Back-end-Tapio-Test#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
+    "mongoose": "^4.6.6",
+    "morgan": "^1.7.0"
+  }
+}
