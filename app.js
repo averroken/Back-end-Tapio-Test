@@ -9,6 +9,7 @@ var passport = require('passport');
 var config = require('./oauth.js');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
 passport.serializeUser(function(user, done) {
     done(null, user);
@@ -38,8 +39,7 @@ app.set('port', process.env.PORT || 1337);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
+app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // env config
