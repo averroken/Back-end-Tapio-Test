@@ -13,7 +13,7 @@ var bodyParser = require('body-parser');
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use()
+app.use(bodyParser.json())
 app.set('port', process.env.PORT || 1337);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
