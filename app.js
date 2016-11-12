@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var config = require('./oauth.js');
 var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var errorHandler = require('errorhandler');
@@ -24,25 +25,9 @@ mongoose.connect(mongo);
 var User = mongoose.model('User', {
     oauthID: Number,
     name: String,
-    created: Date
+    created: Date,
+    authentication: String
 });
-
-
-passport.serializeUser(function(user, done) {
-    console.log('serializeUser: ' + user._id);
-    done(null, user._id);
-});
-
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function (err, user) {
-        console.log(user);
-        if (!err) {
-            done(null,user);
-        }else {
-            done(err, null);
-        }
-    })
-})
 
 passport.use(new FacebookStrategy({
         clientID: config.facebook.clientId,
@@ -50,20 +35,56 @@ passport.use(new FacebookStrategy({
         callbackURL: config.facebook.callbackUrl
     },
     function(accessToken, refreshToken, profile, done) {
-        User.findOne({oauthID: profile.id}, function (err, user) {
-            if(err){
+        User.findOne({
+            oauthID: profile.id
+        }, function(err, user) {
+            if (err) {
                 console.log(err);
             }
-            if(!err && user !== null){
+            if (!err && user !== null) {
+                done(null, user);
+            } else {
+                user = new User({
+                    oauthID: profile.id,
+                    name: profile.displayName,
+                    created: Date.now(),
+                    authentication: "Facebook"
+                });
+                user.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("saving user");
+                        done(null, user);
+                    }
+                })
+            }
+        })
+    }
+));
+
+passport.use(new GoogleStrategy({
+        clientID: config.google.consumerKey,
+        clientSecret: config.google.clientSecret,
+        callbackURL: config.google.callbackUrl,
+        passReqToCallback: true
+    },
+    function(request, accessToken, refreshToken, profile, done) {
+        User.findOne({oauthID: profile.id}, function (err, user) {
+            if (err) {
+                console.log(err);
+            }
+            if (!err && user !== null) {
                 done(null, user);
             }else {
                 user = new User({
                     oauthID: profile.id,
-                    name: profile.dispalyName,
-                    created: Date.now()
+                    name: profile.displayName,
+                    created: Date.now(),
+                    authentication: "Google"
                 });
                 user.save(function (err) {
-                    if (err) {
+                    if(err){
                         console.log(err);
                     }else {
                         console.log("saving user");
@@ -74,6 +95,22 @@ passport.use(new FacebookStrategy({
         })
     }
 ));
+
+passport.serializeUser(function(user, done) {
+    console.log('serializeUser: ' + user._id);
+    done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        console.log(user);
+        if (!err) {
+            done(null, user);
+        } else {
+            done(err, null);
+        }
+    })
+})
 
 
 // global config
@@ -111,11 +148,13 @@ if (enviroment == 'development') {
 app.get('/', routes.index);
 app.get('/ping', routes.ping);
 app.get('/account', ensureAuthenticated, function(req, res) {
-    User.findById(req.session.passport.user, function (err, user) {
+    User.findById(req.session.passport.user, function(err, user) {
         if (err) {
             console.log(err);
-        }else {
-            res.render('account', {user: user});
+        } else {
+            res.render('account', {
+                user: user
+            });
         }
     })
 });
@@ -136,10 +175,27 @@ app.get('/auth/facebook/callback',
     }),
     function(req, res) {
         res.redirect('/account');
-});
+    });
+
+app.get('/auth/google',
+    passport.authenticate('google', {
+        scope: [
+            'https://www.googleapis.com/auth/plus.login'
+        ]
+    }
+));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/'
+    }),
+    function(req, res) {
+        res.redirect('/account');
+    }
+);
 
 
-app.get('/logout', function (req, res) {
+app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
 })
