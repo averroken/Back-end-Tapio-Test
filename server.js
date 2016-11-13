@@ -12,7 +12,7 @@ var User = require('./app/models/user');
 var port = process.env.PORT || 8080;
 
 //use config.database to connect to local mongod
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/Test');
 app.set('secret', config.secret);
 
 
