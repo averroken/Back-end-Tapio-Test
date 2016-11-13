@@ -4,13 +4,10 @@ var Account = require('./models/account');
 
 module.exports = function(app) {
     app.get('/', function(req, res) {
-        if (typeof(user) !== undefined) {
-            res.render('index', {});
-        }else {
+        console.log('user: ' + req.user);
             res.render('index', {
-                user: user
+                user: req.user
             });
-        }
     });
 
     app.get('/register', function(req, res) {
@@ -18,7 +15,6 @@ module.exports = function(app) {
     });
 
     app.post('/register', function(req, res) {
-        console.log('username: ' + req.body.username);
         Account.register(new Account({
                 username: req.body.username
             }),
@@ -26,9 +22,7 @@ module.exports = function(app) {
             function(err, account) {
                 if (err) {
                     console.log("error: " + err);
-                    return res.render('register', {
-                        account: account
-                    });
+                    return res.render('register', {info: "Sorry. That username is already taken"})
                 }
 
                 passport.authenticate('local')(req,res,function () {

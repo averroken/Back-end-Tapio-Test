@@ -13,10 +13,15 @@ html
         a(href="/ping") Ping
         br
         br
+
         if(!user)
             a(href="/login") login
             br
             a(href='/register') register
+            br
         if(user)
-            p You are currently logged in as #{user.username}
+            p You are currently logged in as !{user.username}
             a(href='/logout') logout
+
+    script(src='http://code.jquery.com/jquery.js')
+    script(src='js/bootstrap.min.js')
