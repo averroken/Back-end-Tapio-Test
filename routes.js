@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 var Account = require('./models/account');
 
+// TODO: add google login
+// TODO: add facebook login
+
 module.exports = function(app) {
     function isAuthenticated(req, res, next) {
         if (req.user) {

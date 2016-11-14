@@ -6,6 +6,9 @@ var Account = new Schema({
     username: String,
     password: String,
     token: {type: String, default: 'null' }
+    // TODO: add tokenCreationDate
+    // TODO: add tokenExpireDate
+    // TODO: add authentication method
 });
 
 Account.plugin(passportLocalMongoose);

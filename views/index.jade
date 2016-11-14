@@ -7,27 +7,31 @@ html
     body
     .container
         h1 Tapio
-        //- a(href="/") Go home
-        //- br
-        //- a(href="/ping") Ping
-        //- br
-        //- br
 
         if(!user)
             p.lead Control panel
-            a(href="/login") login
-            br
-            a(href='/register') register
+            a(href="/login")
+                button.btn.btn-primary(type= 'button') login
+            &nbsp;
+            a(href='/register')
+                button.btn.btn-default(type= 'button') register
             br
         if(user)
             p.lead Control panel of: !{user.username}
 
             if(user.token === "null")
                 p No token found
+                a(href='/authenticate')
+                    button.btn.btn-success(type='button') Get token
+                    br
+                    br
 
             if(user.token !== "null")
                 log('token: ' + user.token)
                 p Your token is: !{user.token}
+                button.btn.btn-secondary(type='button' disabled) Refresh token
+                br
+                br
 
             a(href='/logout')
                 button.btn.btn-danger(type='button') Logout
