@@ -8,6 +8,7 @@ var Account = require('./models/account');
 
 // TODO: add password change route
 // TODO: make sure users don't register with empty password
+// TODO: token verieferen en routes uitbreiden (Brian)
 
 module.exports = function(app) {
     //checks (with request parameter) if user is logged in
@@ -97,7 +98,7 @@ module.exports = function(app) {
         user.save();
     });
 
-    // TODO: Edit facebookLogin
+    // TODO: Edit facebookLogin (Brian)
     // Passport Strategies
     passport.use(new FacebookStrategy({
             clientID: config.facebook.clientID,
@@ -133,7 +134,7 @@ module.exports = function(app) {
         }
     ));
 
-    // TODO: Edit googleLogin
+    // TODO: Edit googleLogin (Brian)
     // passport.use(new GoogleStrategy({
     //         clientID: config.google.clientID,
     //         clientSecret: config.google.clientSecret,
