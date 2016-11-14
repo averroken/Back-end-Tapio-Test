@@ -8,9 +8,9 @@ html
         script(src='js/bootstrap.min.js')
     body
     .container
-        h1 login Page
+        h1 Login Page
         p.lead Say something worthwile here
-        br
+
         form(role='form', action='/login', method='post', style='max-width: 300px;')
             .form-group
                 input.form-control(type='text', name='username', placeholder='Enter username')
@@ -20,3 +20,7 @@ html
             &nbsp;
             a(href='/')
                 button.btn.btn-primary(type='button') Cancel
+
+        br
+        br
+        h4= info

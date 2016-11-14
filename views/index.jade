@@ -6,22 +6,32 @@ html
         link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
     body
     .container
-        h1 Say something meaningfull here
-        p.lead Say something worthwhile here
-        a(href="/") Go home
-        br
-        a(href="/ping") Ping
-        br
-        br
+        h1 Tapio
+        //- a(href="/") Go home
+        //- br
+        //- a(href="/ping") Ping
+        //- br
+        //- br
 
         if(!user)
+            p.lead Control panel
             a(href="/login") login
             br
             a(href='/register') register
             br
         if(user)
-            p You are currently logged in as !{user.username}
-            a(href='/logout') logout
+            p.lead Control panel of: !{user.username}
+
+            if(user.token === "null")
+                p No token found
+
+            if(user.token !== "null")
+                log('token: ' + user.token)
+                p Your token is: !{user.token}
+
+            a(href='/logout')
+                button.btn.btn-danger(type='button') Logout
+            //- a(href='/logout') logout
 
     script(src='http://code.jquery.com/jquery.js')
     script(src='js/bootstrap.min.js')
