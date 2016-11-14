@@ -3,12 +3,15 @@ var mongoose = require('mongoose'),
     passportLocalMongoose = require('passport-local-mongoose');
 
 var Account = new Schema({
-    username: String,
-    password: String,
-    token: {type: String, default: 'null' }
+    username: {type: String, unique: true, required: true},
+    password: {type: String},
+    token: {type: String, unique: true, default: 'null' },
+    socialLoginId: {type: String, default: 'null', unique: true},
+    userCreatedDate: {type: Date, default: Date.now},
+    authenticationMethod: {type: String, required: true}
     // TODO: add tokenCreationDate
     // TODO: add tokenExpireDate
-    // TODO: add authentication method
+    // TODO: add PasswordChangedDate
 });
 
 Account.plugin(passportLocalMongoose);
