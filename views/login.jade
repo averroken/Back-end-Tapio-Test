@@ -16,14 +16,20 @@ html
                 input.form-control(type='text', name='username', placeholder='Enter username')
             .form-group
                 input.form-control(type='password', name='password', placeholder='Password')
-            button.btn.btn-primary(type='submit') Submit
+            button.btn.btn-default(type='submit') Submit
             &nbsp;
             a(href='/')
-                button.btn.btn-default(type='button') Cancel
+                button.btn.btn-default-white(type='button') Cancel
 
         br
+        br
+        br
+        p.lead Social authentication
         a(href='/auth/facebook')
             buttn.btn.btn-primary(type='button') Login with facebook
+        &nbsp;
+        a(href='/auth/google')
+            buttn.btn.btn-danger(type='button') Login with Google+
 
         br
         br
