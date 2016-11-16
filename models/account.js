@@ -17,7 +17,7 @@ var Account = new Schema({
     // TODO: add tokenExpireDate::
     // TODO: add PasswordChangedDate::DONE
 });
-//Worst
+
 Account.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Account', Account);
