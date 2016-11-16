@@ -8,8 +8,8 @@ var Account = require('./models/account');
 var express = require('express');
 var testRoutes = express.Router();
 
-// TODO: add password change route
-// TODO: make sure users don't register with empty password
+// TODO: add password change route::DONE
+// TODO: make sure users don't register with empty password:::DONE
 // TODO: token verieferen en routes uitbreiden (Brian)
 
 module.exports = function(app) {
@@ -36,7 +36,16 @@ module.exports = function(app) {
     app.get('/register', function(req, res) {
         res.render('register', {});
     });
+    //ADD PASSWORD CHANGE ROUTE
+    app.post('/addpassword', function(req, res) {
+        if(Account.password != "" || Account.password != null){
+        Account.password = res;
+        } else{
+            //Give error 'Geef een passwoord in"
+        }
 
+
+    });
     //handles post on register
     app.post('/register', function(req, res) {
         Account.register(new Account({
@@ -83,7 +92,7 @@ module.exports = function(app) {
     app.get('/ping', isAuthenticated, function(req, res) {
         res.send("pong!", 200);
     })
-
+    app.get('/refreshtoken')
     //route to generate token for logged in users
     // TODO: Edit token saving to delete old value
     app.get('/authenticate', isAuthenticated, function(req, res) {
@@ -91,18 +100,23 @@ module.exports = function(app) {
         var token = jwt.sign(user, 'ilovechocolate', {
             expiresIn: 1440
         });
+        user.token = "";
         user.token = token;
 
         res.json({
             user: req.user.username,
             success: true,
             message: 'Enjoy your token',
-            token: token
+            token: token,
+            tokenCreationDate: Date.now(),
+            tokenExpireDate: tokenCreationDate + 30
         });
-
+        user.tokenCreationDate = Date.now();
+        user.tokenExpireDate = tokenCreationDate + 30;
         user.save();
     });
 
+    // TODO: Edit facebookLogin (Brian)
     // Passport Strategies
     passport.use(new FacebookStrategy({
             clientID: config.facebook.clientID,
