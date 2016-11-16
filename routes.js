@@ -36,7 +36,16 @@ module.exports = function(app) {
     app.get('/register', function(req, res) {
         res.render('register', {});
     });
+    //ADD PASSWORD CHANGE ROUTE
+    app.post('/addpassword', function(req, res) {
+        if(Account.password != "" || Account.password != null){
+        Account.password = res;
+        } else{
+            //Give error 'Geef een passwoord in"
+        }
 
+
+    });
     //handles post on register
     app.post('/register', function(req, res) {
         Account.register(new Account({
@@ -91,15 +100,19 @@ module.exports = function(app) {
         var token = jwt.sign(user, 'ilovechocolate', {
             expiresIn: 1440
         });
+        user.token = "";
         user.token = token;
 
         res.json({
             user: req.user.username,
             success: true,
             message: 'Enjoy your token',
-            token: token
+            token: token,
+            tokenCreationDate: Date.now(),
+            tokenExpireDate: tokenCreationDate + 30
         });
-
+        user.tokenCreationDate = Date.now();
+        user.tokenExpireDate = tokenCreationDate + 30;
         user.save();
     });
 

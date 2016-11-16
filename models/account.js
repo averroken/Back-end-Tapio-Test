@@ -10,10 +10,12 @@ var Account = new Schema({
     socialLoginId: {type: String, default: 'null', unique: true},
     userCreatedDate: {type: Date, default: Date.now},
     authenticationMethod: {type: String, required: true},
-    facebokToken: {type: String, required: false}
-    // TODO: add tokenCreationDate
-    // TODO: add tokenExpireDate
-    // TODO: add PasswordChangedDate
+    tokenCreationDate: {type: Date},
+    tokenExpireDate: {type: Date},
+    PasswordChangedDate: {type: Date, default:Date.now}
+    // TODO: add tokenCreationDate::
+    // TODO: add tokenExpireDate::
+    // TODO: add PasswordChangedDate::DONE
 });
 //Worst
 Account.plugin(passportLocalMongoose);
