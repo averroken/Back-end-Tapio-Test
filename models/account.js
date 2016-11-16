@@ -3,18 +3,17 @@ var mongoose = require('mongoose'),
     passportLocalMongoose = require('passport-local-mongoose');
 
 var Account = new Schema({
-    username: {type: String, unique: true, required: true},
-    password: {type: String, required:true},
+    username: {type: String, required: true, default: 'null'},
+    socialUsername: {type: String, required: false, default: 'null'},
+    password: {type: String},
     token: {type: String, unique: true, default: 'null' },
     socialLoginId: {type: String, default: 'null', unique: true},
     userCreatedDate: {type: Date, default: Date.now},
     authenticationMethod: {type: String, required: true},
-    tokenCreationDate: {type: Date},
-    tokenExpireDate: {type: Date},
-    PasswordChangedDate: {type: Date, default:Date.now}
-    // TODO: add tokenCreationDate::
-    // TODO: add tokenExpireDate::
-    // TODO: add PasswordChangedDate::DONE
+    facebokToken: {type: String, required: false}
+    // TODO: add tokenCreationDate
+    // TODO: add tokenExpireDate
+    // TODO: add PasswordChangedDate
 });
 
 Account.plugin(passportLocalMongoose);
