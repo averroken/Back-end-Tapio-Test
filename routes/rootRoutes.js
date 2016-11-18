@@ -1,5 +1,8 @@
+
 const passport = require('passport');
 const bodyParser = require('body-parser');
+var Account = require('../models/account');
+const jwt = require('jsonwebtoken');
 
 module.exports = function (app) {
     //checks (with request parameter) if user is logged in
@@ -82,12 +85,14 @@ module.exports = function (app) {
         });
         user.token = token;
 
-        res.json({
-            user: req.user.username,
-            success: true,
-            message: 'Enjoy your token',
-            token: token
-        });
+        // res.json({
+        //     user: req.user.username,
+        //     success: true,
+        //     message: 'Enjoy your token',
+        //     token: token
+        // });
+
+        res.redirect('/');
 
         user.save();
     });
