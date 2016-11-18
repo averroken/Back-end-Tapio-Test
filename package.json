@@ -38,7 +38,11 @@
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.1",
     "gulp-csslint": "^1.0.0",
+    "gulp-jshint": "^2.0.4",
     "gulp-notify": "^2.2.0",
-    "gulp-sourcemaps": "^2.2.0"
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-uglify": "^2.0.0",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1"
   }
 }

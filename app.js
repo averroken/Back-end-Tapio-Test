@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var enviroment = process.env.NODE_ENV || 'development';
 if (enviroment == 'development') {
-    app.use(errorHandler({dumpExceptions: true, showStack: true}))
+    app.use(errorHandler({dumpExceptions: true, showStack: true}));
 }else if (enviroment == 'production') {
     app.use(errorHandler());
 }
@@ -45,8 +45,8 @@ passport.deserializeUser(Account.deserializeUser());
 
 mongoose.connect('mongodb://localhost:27017/TestV2');
 
-require('./routes')(app);
+require('./routeImplementation')(app);
 
 app.listen(app.get('port'),function () {
     console.log('Express server listening on port: ' + app.get('port'));
-})
+});
