@@ -43,7 +43,8 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-mongoose.connect('mongodb://localhost:27017/TestV2');
+// mongoose.connect('mongodb://localhost:27017/TestV2');
+mongoose.connect(process.env.MONGODB_URI)
 
 require('./routes')(app);
 
