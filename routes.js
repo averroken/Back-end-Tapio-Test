@@ -33,6 +33,10 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/googlec06c185a15513c28.html', function (req, res) {
+        res.sendFile('./public/googlec06c185a15513c28.html');
+    });
+
     //renders register
     app.get('/register', function(req, res) {
         res.render('register', {});
