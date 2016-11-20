@@ -10,7 +10,8 @@ html
     .container
         h1 Login
         p.lead Login to view account
-
+        -if(error)
+            div#note #{error}
         form(role='form', action='/login', method='post', style='max-width: 300px;')
             .form-group
                 input.form-control(type='text', name='username', placeholder='Enter username')
