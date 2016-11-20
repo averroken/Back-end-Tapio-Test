@@ -48,5 +48,6 @@ mongoose.connect('mongodb://localhost:27017/TestV2');
 require('./routes')(app);
 
 app.listen(app.get('port'),function () {
+    console.log('facebook: ' + process.env.FACEBOOK_CLIENT_ID);
     console.log('Express server listening on port: ' + app.get('port'));
 })
