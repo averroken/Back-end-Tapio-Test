@@ -11,6 +11,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const methodOverride = require('method-override');
 const expressSession = require('express-session');
 
+var Landmark = require('./models/landmarkModel');
+
 var app = express();
 app.set('port', process.env.PORT || 1337);
 app.set('views', __dirname + '/views');
@@ -43,10 +45,17 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
+landmarkRoutes = require('./Routes/landmarkRoutes')(Landmark);
+
+//solving deprecated warning
+// --> http://stackoverflow.com/questions/38138445/node3341-deprecationwarning-mongoose-mpromise
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/TestV2');
+
+app.use('/api/landmarks', landmarkRoutes);
 
 require('./routes')(app);
 
 app.listen(app.get('port'),function () {
     console.log('Express server listening on port: ' + app.get('port'));
-})
+});

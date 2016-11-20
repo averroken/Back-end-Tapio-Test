@@ -13,9 +13,6 @@ var Account = new Schema({
     tokenCreationDate: {type: Date},
     tokenExpireDate: {type: Date},
     PasswordChangedDate: {type: Date, default:Date.now}
-    // TODO: add tokenCreationDate::
-    // TODO: add tokenExpireDate::
-    // TODO: add PasswordChangedDate::DONE
 });
 
 Account.plugin(passportLocalMongoose);

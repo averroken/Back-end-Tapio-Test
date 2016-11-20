@@ -36,6 +36,7 @@ module.exports = function(app) {
     app.get('/register', function(req, res) {
         res.render('register', {});
     });
+
     //ADD PASSWORD CHANGE ROUTE
     app.post('/addpassword', function(req, res) {
         if(Account.password != "" || Account.password != null){
@@ -43,9 +44,8 @@ module.exports = function(app) {
         } else{
             //Give error 'Geef een passwoord in"
         }
-
-
     });
+
     //handles post on register
     app.post('/register', function(req, res) {
         Account.register(new Account({
@@ -77,7 +77,7 @@ module.exports = function(app) {
     //handles post of login
     app.post('/login', passport.authenticate('local'), function(req, res) {
         res.redirect('/');
-    })
+    });
 
     //renders logout page
     app.get('/logout', function(req, res) {
@@ -91,7 +91,7 @@ module.exports = function(app) {
     //simple test page to check if user is logged in
     app.get('/ping', isAuthenticated, function(req, res) {
         res.send("pong!", 200);
-    })
+    });
 
     //route to generate token for logged in users
     // TODO: Edit token saving to delete old value
@@ -252,4 +252,4 @@ module.exports = function(app) {
         res.status(404);
         res.render('error', {});
     })
-}
+};
