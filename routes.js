@@ -73,7 +73,20 @@ module.exports = function(app) {
     //handles post of login
     app.post('/login', passport.authenticate('local'), function(req, res) {
         res.redirect('/');
-    })
+    });
+
+    //handles post of Android login
+    app.post('/android/login', passport.authenticate('local'), function(req, res) {
+        var username = (req.user.socialUsername === 'null') ? req.user.username :req.user.socialUsername;
+        var token = (req.user.token === "null") ? false : req.user.token;
+        var json = {
+            "_id" : req.user._id,
+            "authenticationMethod": req.user.authenticationMethod,
+            "username": username,
+            "token": token
+        }
+        res.status(200).json({"user": json});
+    });
 
     //renders logout page
     app.get('/logout', function(req, res) {
