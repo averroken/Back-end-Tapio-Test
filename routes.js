@@ -260,6 +260,11 @@ module.exports = function(app) {
         res.render('token', { });
     });
 
+    testRoutes.get('/android/tokenTest', function(req, res) {
+        console.log('user: ' + req.user);
+        res.json({"message":"Congratulations, your token works"});
+    });
+
     app.use('/api', testRoutes);
 
     app.use(function (req, res, next) {
