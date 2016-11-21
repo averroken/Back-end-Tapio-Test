@@ -43,7 +43,10 @@ module.exports = function(app) {
         res.render('register', {});
     });
     app.get('/changePassword', function(req, res){
-        res.render('changePassword', {})
+        var errors = req.flash('error');
+        res.render('changePassword', {
+           error: errors
+        });
     });
     //ADD PASSWORD CHANGE ROUTE
     app.post('/changePassword', function(req, res, next) {
@@ -60,7 +63,7 @@ module.exports = function(app) {
                         req.flash('error', 'No account with that email address exists.');
                         return res.redirect('/changePassword');
                     }
-
+                    req.flash('error', 'An email has been sent to your address');
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
@@ -74,13 +77,13 @@ module.exports = function(app) {
                     service: 'SendGrid',
                     auth: {
                         user: 'DarthSwedo',
-                        pass: '123suckadick'
+                        pass: '123azerty'
                     }
                 });
                 var mailOptions = {
                     to: user.email,
-                    from: 'passwordreset@demo.com',
-                    subject: 'Node.js Password Reset',
+                    from: 'noreply@Tapio.com',
+                    subject: 'Tapio Password Reset',
                     text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
                     'http://' + req.headers.host + '/reset/' + token + '\n\n' +
@@ -116,19 +119,21 @@ module.exports = function(app) {
                         return res.redirect('back');
                     }
 
-                    user.setPassword(req.body.password,function(error, password){
+                    user.setPassword(req.body.password,function(error){
                     if(error){
                         res.render('error');
+                    }else {
+                        user.resetPasswordToken = undefined;
+                        user.resetPasswordExpires = undefined;
+
+                        user.save(function(err) {
+                            req.logIn(user, function(err) {
+                                done(err, user);
+                            });
+                        });
                     }
                     });
-                    user.resetPasswordToken = undefined;
-                    user.resetPasswordExpires = undefined;
 
-                    user.save(function(err) {
-                        req.logIn(user, function(err) {
-                            done(err, user);
-                        });
-                    });
                 });
             },
             function(user, done) {
@@ -136,12 +141,12 @@ module.exports = function(app) {
                     service: 'SendGrid',
                     auth: {
                         user: 'DarthSwedo',
-                        pass: '123suckadick'
+                        pass: '123azerty'
                     }
                 });
                 var mailOptions = {
                     to: user.email,
-                    from: 'olivetreeswithapples@pears.com',
+                    from: 'noreply@Tapio.com',
                     subject: 'Your password has been changed',
                     text: 'Hello,\n\n' +
                     'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
