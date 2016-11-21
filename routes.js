@@ -85,6 +85,7 @@ module.exports = function(app) {
             "username": username,
             "token": token
         }
+        console.log("json:" + json);
         res.status(200).json({"user": json});
     });
 
