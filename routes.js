@@ -86,7 +86,7 @@ module.exports = function(app) {
             "token": token
         }
         console.log("json:" + json);
-        res.status(200).json({"user": json});
+        res.status(200).send(json);
     });
 
     //renders logout page
