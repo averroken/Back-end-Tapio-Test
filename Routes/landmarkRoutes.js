@@ -41,7 +41,7 @@ var routes = function(Landmark){
     landmarkRouter.route('/:landmarkId')
         .get(function(req,res){
 
-            res.json(req.landmark);
+            res.json(req.land);
 
         });
 
