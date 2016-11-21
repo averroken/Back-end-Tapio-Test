@@ -238,8 +238,9 @@ module.exports = function(app) {
         if (token) {
             jwt.verify(token, 'ilovechocolate', function(err, decoded) {
                 if (err) {
+                    res.status(401);
                     return res.json({
-                        success: false,
+                        success: 'false',
                         message: 'Failed to authenticate token'
                     });
                 } else {
