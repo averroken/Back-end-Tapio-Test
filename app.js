@@ -50,7 +50,8 @@ landmarkRoutes = require('./Routes/landmarkRoutes')(Landmark);
 //solving deprecated warning
 // --> http://stackoverflow.com/questions/38138445/node3341-deprecationwarning-mongoose-mpromise
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TestV2');
+// mongoose.connect('mongodb://localhost:27017/TestV2');
+mongoose.connect(process.env.MONGODB_URI);
 
 app.use('/api/landmarks', landmarkRoutes);
 
