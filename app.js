@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var enviroment = process.env.NODE_ENV || 'development';
 if (enviroment == 'development') {
-    app.use(errorHandler({dumpExceptions: true, showStack: true}))
+    app.use(errorHandler({dumpExceptions: true, showStack: true}));
 }else if (enviroment == 'production') {
     app.use(errorHandler());
 }
@@ -55,7 +55,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 app.use('/api/landmarks', landmarkRoutes);
 
-require('./routes')(app);
+require('./routeImplementation')(app);
 
 app.listen(app.get('port'),function () {
     console.log('Express server listening on port: ' + app.get('port'));
