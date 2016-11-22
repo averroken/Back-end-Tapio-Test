@@ -2,6 +2,7 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook');
 const FacebookTokenStrategy = require('passport-facebook-token');
 const GoogleStrategy = require('passport-google-oauth2');
+const jwt = require('jsonwebtoken');
 var config = require('../oauthCredentials.js');
 var Account = require('../models/account');
 
@@ -64,6 +65,16 @@ module.exports = function(app) {
                     authenticationMethod: "Facebook-token",
                     facebokToken: accessToken
                 });
+
+                var token = account.token;
+                console.log("passport-token: " + token);
+                if (token === "null") {
+                    token = jwt.sign(account, 'ilovechocolate', {
+                        expiresIn: 1440
+                    });
+                    account.token = token;
+                }
+
                 account.save(function (err) {
                     if (err) {
                         console.log("second error: " + err);
@@ -127,7 +138,16 @@ module.exports = function(app) {
     app.get('/auth/facebook/token',
         passport.authenticate('facebook-token'),
         function(req, res) {
-            res.send(req.user ? 200 : 400);
+            var token = "null";
+            if (req.user.token !== "null") {
+                token = req.user.token
+            }
+            if (req.user) {
+                res.status(200).send({"token":token});
+            }else {
+                res.status(400);
+            }
+            // res.send(req.user ? 200 : 400);
         }
     )
 
