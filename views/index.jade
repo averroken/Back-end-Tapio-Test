@@ -1,0 +1,44 @@
+doctype html
+html
+    head
+        title= title
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    body
+    .container
+        h1 Tapio
+
+        if(!user)
+            p.lead Control panel
+            a(href="/login")
+                button.btn.btn-default(type= 'button') login
+            &nbsp;
+            a(href='/register')
+                button.btn.btn-default-white(type= 'button') register
+            br
+        if(user)
+            if(user.authenticationMethod === 'Local')
+                p.lead Control panel of: !{user.username}
+            else
+                p.lead Control panel of: !{user.socialUsername}
+
+            if(user.token === "null")
+                p No token found
+                a(href='/authenticate')
+                    button.btn.btn-success(type='button') Get token
+                    br
+                    br
+
+            if(user.token !== "null")
+                log('token: ' + user.token)
+                p Your token is: !{user.token}
+                button.btn.btn-secondary(type='button' disabled) Refresh token
+                br
+                br
+
+            a(href='/logout')
+                button.btn.btn-danger(type='button') Logout
+            //- a(href='/logout') logout
+
+    script(src='http://code.jquery.com/jquery.js')
+    script(src='js/bootstrap.min.js')
