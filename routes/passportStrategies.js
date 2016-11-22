@@ -1,10 +1,11 @@
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook');
+const FacebookTokenStrategy = require('passport-facebook-token');
 const GoogleStrategy = require('passport-google-oauth2');
 var config = require('../oauthCredentials.js');
 var Account = require('../models/account');
 
-module.exports = function (app) {
+module.exports = function(app) {
     // Passport Strategies
     passport.use(new FacebookStrategy({
             clientID: config.facebook.clientID,
@@ -41,6 +42,39 @@ module.exports = function (app) {
             })
         }
     ));
+
+    passport.use(new FacebookTokenStrategy({
+        clientID: config.facebook.clientID,
+        clientSecret: config.facebook.clientSecret
+    }, function(accessToken, refreshToken, profile, done) {
+        Account.findOne({
+            socialLoginId: profile.id
+        }, function(err, user) {
+            if (err) {
+                console.log("first error: " + err);
+            }
+            if (!err && user !== null) {
+                done(null, user);
+            }else {
+                account = new Account({
+                    username: "" + profile.id,
+                    socialUsername: profile.displayName,
+                    socialLoginId: profile.id,
+                    created: Date.now(),
+                    authenticationMethod: "Facebook-token",
+                    facebokToken: accessToken
+                });
+                account.save(function (err) {
+                    if (err) {
+                        console.log("second error: " + err);
+                    }else {
+                        console.log("saving user");
+                        done(null, user);
+                    }
+                })
+            }
+        })
+    }))
 
     passport.use(new GoogleStrategy({
             clientID: config.google.clientID,
@@ -89,6 +123,13 @@ module.exports = function (app) {
         function(req, res) {
             res.redirect('/');
         });
+
+    app.get('/auth/facebook/token',
+        passport.authenticate('facebook-token'),
+        function(req, res) {
+            res.send(req.user ? 200 : 400);
+        }
+    )
 
     app.get('/auth/google',
         passport.authenticate('google', {
