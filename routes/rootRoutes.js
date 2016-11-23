@@ -1,4 +1,3 @@
-
 const passport = require('passport');
 const bodyParser = require('body-parser');
 var Account = require('../models/account');
@@ -7,7 +6,7 @@ const async = require('async');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
-module.exports = function (app) {
+module.exports = function(app) {
     //checks (with request parameter) if user is logged in
     function isAuthenticated(req, res, next) {
         if (req.user) {
@@ -84,7 +83,10 @@ module.exports = function (app) {
     // TODO: Edit token saving to delete old value
     app.get('/authenticate', isAuthenticated, function(req, res) {
         var user = new Account(req.user);
-        var token = jwt.sign(user, 'ilovechocolate', {
+        var json = {
+            "username": user.username
+        }
+        var token = jwt.sign(json, 'ilovechocolate', {
             expiresIn: 1440
         });
         user.token = token;
@@ -101,10 +103,10 @@ module.exports = function (app) {
         user.save();
     });
 
-    app.get('/changePassword', function(req, res){
+    app.get('/changePassword', function(req, res) {
         var errors = req.flash('error');
         res.render('changePassword', {
-           error: errors
+            error: errors
         });
     });
     //ADD PASSWORD CHANGE ROUTE
@@ -117,7 +119,9 @@ module.exports = function (app) {
                 });
             },
             function(token, done) {
-                Account.findOne({ email: req.body.email }, function(err, user) {
+                Account.findOne({
+                    email: req.body.email
+                }, function(err, user) {
                     if (!user) {
                         req.flash('error', 'No account with that email address exists.');
                         return res.redirect('/changePassword');
@@ -144,9 +148,9 @@ module.exports = function (app) {
                     from: 'noreply@Tapio.com',
                     subject: 'Tapio Password Reset',
                     text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                        'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                        'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                 };
                 smtpTransport.sendMail(mailOptions, function(err) {
                     req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
@@ -159,7 +163,12 @@ module.exports = function (app) {
         });
     });
     app.get('/reset/:token', function(req, res) {
-        Account.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        Account.findOne({
+            resetPasswordToken: req.params.token,
+            resetPasswordExpires: {
+                $gt: Date.now()
+            }
+        }, function(err, user) {
             if (!user) {
                 req.flash('error', 'Password reset token is invalid or has expired.');
                 return res.redirect('/changePassword');
@@ -172,25 +181,30 @@ module.exports = function (app) {
     app.post('/reset/:token', function(req, res) {
         async.waterfall([
             function(done) {
-                Account.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+                Account.findOne({
+                    resetPasswordToken: req.params.token,
+                    resetPasswordExpires: {
+                        $gt: Date.now()
+                    }
+                }, function(err, user) {
                     if (!user) {
                         req.flash('error', 'Password reset token is invalid or has expired.');
                         return res.redirect('back');
                     }
 
-                    user.setPassword(req.body.password,function(error){
-                    if(error){
-                        res.render('error');
-                    }else {
-                        user.resetPasswordToken = undefined;
-                        user.resetPasswordExpires = undefined;
+                    user.setPassword(req.body.password, function(error) {
+                        if (error) {
+                            res.render('error');
+                        } else {
+                            user.resetPasswordToken = undefined;
+                            user.resetPasswordExpires = undefined;
 
-                        user.save(function(err) {
-                            req.logIn(user, function(err) {
-                                done(err, user);
+                            user.save(function(err) {
+                                req.logIn(user, function(err) {
+                                    done(err, user);
+                                });
                             });
-                        });
-                    }
+                        }
                     });
 
                 });
@@ -208,7 +222,7 @@ module.exports = function (app) {
                     from: 'noreply@Tapio.com',
                     subject: 'Your password has been changed',
                     text: 'Hello,\n\n' +
-                    'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+                        'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
                 };
                 smtpTransport.sendMail(mailOptions, function(err) {
                     req.flash('success', 'Success! Your password has been changed.');
