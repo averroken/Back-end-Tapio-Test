@@ -11,10 +11,7 @@ var routes = function (Landmark) {
             res.status(201).send(landmark);
         })
         .get(function (req, res) {
-
-            var query = {};
-
-            Landmark.find(query, function (err, landmarks) {
+            Landmark.find({}, {}, function (err, landmarks) {
                 if (err)
                     res.status(500).send(err);
                 else
@@ -22,24 +19,9 @@ var routes = function (Landmark) {
             });
         });
 
-    landmarkRouter.route('/test')
+    landmarkRouter.route('/location')
         .get(function (req, res) {
-
-            // var query = Landmark.find({})
-            //     //.select('-name')
-            //     .select('-type')
-            //     .select('-description')
-            //     .select('-visits')
-            //     .select('-likes');
-            //
-            // Landmark.find(query, function(err,landmarks){
-            //     if(err)
-            //         res.status(500).send(err);
-            //     else
-            //         res.json(landmarks);
-            // });
-
-            Landmark.find({}, {"long": 1, "lat": 1}, function (err, landmarks) {
+            Landmark.find({}, {"Long": 1, "Lat": 1}, function (err, landmarks) {
                 if (err)
                     res.status(500).send(err);
                 else

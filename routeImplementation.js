@@ -1,20 +1,24 @@
+//dependecies
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-var Account = require('./models/account');
 var express = require('express');
+
+//models
+var Account = require('./models/account');
+var Landmark = require('./models/landmarkModel');
+
+//routeFiles
 var testRoutes = require('./routes/testRoutes.js');
 var rootRoutes = require('./routes/rootRoutes.js');
-// var testRoutes = express.Router();
-
-// TODO: add password change route
-// TODO: make sure users don't register with empty password
-// TODO: token verieferen en routes uitbreiden (Brian)
+var landmarkRoutes = require('./Routes/landmarkRoutes')(Landmark);
 
 module.exports = function(app) {
-    app.use('/api', testRoutes);
+    app.use('/api', testRoutes); //WARNING ADDED TOKEN VALIDATION
+    app.use('/api/landmarks', landmarkRoutes);
     require('./routes/rootRoutes')(app);
     require('./routes/passportStrategies')(app);
+
 
     app.use(function(req, res, next) {
         res.status(404);
