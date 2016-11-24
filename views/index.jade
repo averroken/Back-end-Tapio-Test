@@ -15,6 +15,8 @@ html
             &nbsp;
             a(href='/register')
                 button.btn.btn-default-white(type= 'button') register
+            a(href="/changePassword")
+                p Forgot password?
             br
         if(user)
             if(user.authenticationMethod === 'Local')

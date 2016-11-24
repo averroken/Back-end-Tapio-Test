@@ -17,20 +17,27 @@
   },
   "homepage": "https://github.com/NMCT-Project/Back-end-Tapio-Test#readme",
   "dependencies": {
+    "async": "^2.1.2",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "errorhandler": "^1.4.3",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "jade": "^1.11.0",
+    "jsonwebtoken": "^7.1.9",
     "method-override": "^2.3.6",
-    "mongoose": "^4.6.7",
+    "mongoose": "^4.6.8",
     "morgan": "^1.7.0",
+    "nodemailer": "^0.7.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
+    "passport-facebook-token": "^3.3.0",
     "passport-google-oauth2": "^0.1.6",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^4.0.0"
+    "passport-local-mongoose": "^4.0.0",
+    "passport-local-mongoose-email": "^0.1.3"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
@@ -38,7 +45,11 @@
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.1",
     "gulp-csslint": "^1.0.0",
+    "gulp-jshint": "^2.0.4",
     "gulp-notify": "^2.2.0",
-    "gulp-sourcemaps": "^2.2.0"
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-uglify": "^2.0.0",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1"
   }
 }
