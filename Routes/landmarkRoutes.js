@@ -7,8 +7,13 @@ var routes = function (Landmark) {
         .post(function (req, res) {
             var landmark = new Landmark(req.body);
 
-            landmark.save();
-            res.status(201).send(landmark);
+            landmark.save(function (err) {
+                if(err){
+                    return res.status(406).send("Het posten van de landmark is mislukt");
+                } else {
+                    res.status(201).send("Successfully created landmark");
+                }
+            });
         })
         .get(function (req, res) {
 
