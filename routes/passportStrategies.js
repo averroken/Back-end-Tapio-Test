@@ -57,7 +57,7 @@ module.exports = function(app) {
             }
             if (!err && user !== null) {
                 done(null, user);
-            }else {
+            } else {
                 account = new Account({
                     username: "" + profile.id,
                     socialUsername: profile.displayName,
@@ -76,10 +76,10 @@ module.exports = function(app) {
                     account.token = token;
                 }
 
-                account.save(function (err) {
+                account.save(function(err) {
                     if (err) {
                         console.log("second error: " + err);
-                    }else {
+                    } else {
                         console.log("saving user");
                         done(null, user);
                     }
@@ -136,6 +136,18 @@ module.exports = function(app) {
             res.redirect('/');
         });
 
+    /**
+    @api {post} auth/facebook/token Register with Facebook Token
+    @apiName Register_facebook_token
+    @apiGroup Default
+    @apiDescription Route to register users (both on web and android).
+
+    @apiParam {string} token The <code>token</code> that Facebook provides (Android SDK)
+
+    @apiSuccess status_code  returns 200 status code + <code>token</code> for user verification
+
+    @apiError status_code returns 400 status code
+    **/
     app.get('/auth/facebook/token',
         passport.authenticate('facebook-token'),
         function(req, res) {
@@ -144,8 +156,10 @@ module.exports = function(app) {
                 token = req.user.token
             }
             if (req.user) {
-                res.status(200).send({"token":token});
-            }else {
+                res.status(200).send({
+                    "token": token
+                });
+            } else {
                 res.status(400);
             }
             // res.send(req.user ? 200 : 400);

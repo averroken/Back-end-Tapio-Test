@@ -18,6 +18,7 @@ module.exports = function(app) {
     app.use('/api/landmarks', landmarkRoutes);
     require('./routes/rootRoutes')(app);
     require('./routes/passportStrategies')(app);
+    require('./routes/androidRoutes')(app);
 
 
     app.use(function(req, res, next) {

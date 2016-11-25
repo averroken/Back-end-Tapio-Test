@@ -30,9 +30,41 @@ testRoutes.use(function(req, res, next) {
     }
 });
 
+/**
+@api {get} api/tokenTest TokenTest
+@apiName TestToken
+@apiGroup Token
+@apiDescription A route to simply test if the given token is correct.
+
+@apiSuccess message Congratulations your token works
+
+@apiError No_token No <code>token</code> provided. <code>token</code> is required
+@apiError Wrong_token Failed to authenticate <code>token</code>.
+**/
 testRoutes.get('/tokenTest', function(req, res) {
     console.log('user: ' + req.user);
     res.render('token', { });
+});
+
+/**
+@api {get} api/android/tokenTest TokenTest (Android)
+@apiName TestToken (Android)
+@apiGroup Token
+@apiDescription A route to simply test if the given token is correct.
+
+@apiSuccess message Congratulations your token works
+
+@apiSuccessExample Example success response:
+{
+    message: 'Congratulations, your token works'
+}
+
+@apiError No_token No <code>token</code> provided. <code>token</code> is required
+@apiError Wrong_token Failed to authenticate <code>token</code>.
+**/
+testRoutes.get('/android/tokenTest', function(req, res) {
+    console.log('user: ' + req.user);
+    res.json({"message":"Congratulations, your token works"});
 });
 
 testRoutes.get('/tracer', function(req, res) {
