@@ -26,7 +26,11 @@ module.exports = function(app) {
                 } else {
                     account = new Account({
                         username: "" + profile.id,
+<<<<<<< HEAD
                         email: "Iseeyou4ever@me.be",
+=======
+                        email: 'iseeyou4ever@me.com',
+>>>>>>> origin/jwt-BugFix
                         socialUsername: profile.displayName,
                         socialLoginId: profile.id,
                         created: Date.now(),
