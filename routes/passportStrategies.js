@@ -11,7 +11,8 @@ module.exports = function(app) {
     passport.use(new FacebookStrategy({
             clientID: config.facebook.clientID,
             clientSecret: config.facebook.clientSecret,
-            callbackURL: config.facebook.callbackURL
+            callbackURL: config.facebook.callbackURL,
+            profileFields: ['id', 'emails','displayName', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
         },
         function(accessToken, refreshToken, profile, done) {
             Account.findOne({
@@ -25,12 +26,15 @@ module.exports = function(app) {
                 } else {
                     account = new Account({
                         username: "" + profile.id,
+                        email: "Iseeyou4ever@me.be",
                         socialUsername: profile.displayName,
                         socialLoginId: profile.id,
                         created: Date.now(),
                         authenticationMethod: "Facebook",
                         facebokToken: accessToken
                     });
+                    console.log("Your email adress is : " + profile.emails[0].value);
+                    console.log("Your username is : " + profile.displayName);
                     account.save(function(err) {
                         if (err) {
                             console.log(err);
@@ -65,7 +69,6 @@ module.exports = function(app) {
                     authenticationMethod: "Facebook-token",
                     facebokToken: accessToken
                 });
-
                 var token = account.token;
                 console.log("passport-token: " + token);
                 if (token === "null") {
@@ -124,12 +127,15 @@ module.exports = function(app) {
     ));
 
     app.get('/auth/facebook',
-        passport.authenticate('facebook'),
-        function(req, res) {});
+        passport.authenticate('facebook',{scope:['email']}),
+        function(req, res) {
+            res.redirect('/');
+        });
 
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            failureRedirect: '/'
+            failureRedirect: '/',
+            successRedirect: '/'
         }),
         function(req, res) {
             res.redirect('/');

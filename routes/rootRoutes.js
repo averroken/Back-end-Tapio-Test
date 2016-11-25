@@ -63,7 +63,7 @@ module.exports = function(app) {
     //handles post of login
     app.post('/login', passport.authenticate('local'), function(req, res) {
         res.redirect('/');
-    })
+    });
 
     //renders logout page
     app.get('/logout', function(req, res) {
