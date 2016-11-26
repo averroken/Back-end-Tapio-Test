@@ -29,22 +29,44 @@ var routes = function (Landmark) {
 
     landmarkRouter.route('/test')
         .get(function (req, res) {
+            Landmark.find({}, {"Long": 1, "Lat": 1}, function (err, landmarks) {
+                if (err)
+                    res.status(500).send(err);
+                else
+                    res.json({"landmarks" : landmarks});
+            });
+        });
 
-            // var query = Landmark.find({})
-            //     //.select('-name')
-            //     .select('-type')
-            //     .select('-description')
-            //     .select('-visits')
-            //     .select('-likes');
-            //
-            // Landmark.find(query, function(err,landmarks){
-            //     if(err)
-            //         res.status(500).send(err);
-            //     else
-            //         res.json(landmarks);
-            // });
+    landmarkRouter.route('/filterlocatie')
+        .get(function (req, res) {
+            var query = {};
 
-            Landmark.find({}, {"long": 1, "lat": 1}, function (err, landmarks) {
+            if(req.query.Country || req.query.Province)
+            {
+                if(req.query.Country) query.Country = req.query.Country;
+                if(req.query.Province) query.Province = req.query.Province;
+            }
+
+            Landmark.find(query, function (err, landmarks) {
+                if (err)
+                    res.status(500).send(err);
+                else
+                    res.json({"landmarks" : landmarks});
+            });
+        });
+
+    landmarkRouter.route('/filterlocatieshort')
+        .get(function (req, res) {
+
+            var query = {};
+
+            if(req.query.Country || req.query.Province)
+            {
+                if(req.query.Country) query.Country = req.query.Country;
+                if(req.query.Province) query.Province = req.query.Province;
+            }
+
+            Landmark.find(query, {"Long": 1, "Lat": 1}, function (err, landmarks) {
                 if (err)
                     res.status(500).send(err);
                 else
