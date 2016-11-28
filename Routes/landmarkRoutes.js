@@ -1,6 +1,5 @@
 var express = require('express');
 
-
 var routes = function (Landmark) {
     var landmarkRouter = express.Router();
     landmarkRouter.route('/')
@@ -41,10 +40,9 @@ var routes = function (Landmark) {
         .get(function (req, res) {
             var query = {};
 
-            if(req.query.Country || req.query.Province)
+            if(req.query.Country)
             {
                 if(req.query.Country) query.Country = req.query.Country;
-                if(req.query.Province) query.Province = req.query.Province;
             }
 
             Landmark.find(query, function (err, landmarks) {
@@ -60,10 +58,9 @@ var routes = function (Landmark) {
 
             var query = {};
 
-            if(req.query.Country || req.query.Province)
+            if(req.query.Country)
             {
                 if(req.query.Country) query.Country = req.query.Country;
-                if(req.query.Province) query.Province = req.query.Province;
             }
 
             Landmark.find(query, {"Long": 1, "Lat": 1}, function (err, landmarks) {

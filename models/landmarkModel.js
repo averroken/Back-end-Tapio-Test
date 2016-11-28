@@ -11,7 +11,6 @@ var landmarkModel = new Schema({
     Lat: {type: Number, required: true},
     Long: {type: Number, required: true},
     Country: {type: String, required: true},
-    Province: {type: String, required: true},
     ImageURLBig: {type: String, required: true}
 });
 
