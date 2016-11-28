@@ -63,8 +63,32 @@ module.exports = function(app) {
     //handles post of login
     app.post('/login', passport.authenticate('local'), function(req, res) {
         res.redirect('/');
+        var user = new Account(req.user);
+        var json = {
+            "username": user.username
+        }
+        var refreshToken = jwt.sign(json,'refreshToken',{
+           expiresIn: Date.now() + 90000000
+        });
+        var dateTest = Date.now() + 90000000;
+        user.refreshToken = refreshToken;
+        user.refreshTokenExpires = Date.now() + 90000000;
+        user.save();
+        console.log("Token: " + refreshToken + "Expires in" + req.user.refreshTokenExpires + "Date: " + dateTest + "DateString: " + dateTest.toString());
     });
-
+    app.get('/refreshToken', function(req, res){
+        var user = new Account(req.user);
+        var json = {
+            "username": user.username
+        }
+        var refreshToken = jwt.sign(json,'refreshToken',{
+            expiresIn: Date.now() + 90000000
+        });
+        user.refreshToken = refreshToken;
+        user.refreshTokenExpires = Date.now() + 90000000;
+        user.save();
+        res.redirect('/');
+    });
     //renders logout page
     app.get('/logout', function(req, res) {
         if (req.user.authenticationMethod === "Facebook") {

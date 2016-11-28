@@ -35,7 +35,8 @@ html
                 log('token: ' + user.token)
                 div.tokendiv
                     p.token Your token is: !{user.token.toString()}
-                button.btn.btn-secondary(type='button' disabled) Refresh token
+                a(href='/refreshToken')
+                    button.btn.btn-secondary(type='button') Refresh token
                 br
                 br
 
