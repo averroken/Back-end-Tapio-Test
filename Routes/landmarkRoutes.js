@@ -87,10 +87,7 @@ var routes = function (Landmark) {
         });
     });
 
-    landmarkRouter.route('/:landmarkId')
-        .get(function (req, res) {
-            res.json(req.landmark);
-        })
+    landmarkRouter.route('/:landmarkId/addlike')
         .patch(function(req,res){
             if(req.body._id)
                 delete req.body._id;
@@ -101,11 +98,45 @@ var routes = function (Landmark) {
                 if(err)
                     return res.status(406).send("You can't like this landmark !!!");
                 else{
-                    return res.status(201).send("Congratulations, You are the " + req.landmark.Likes.toString() + "'ste liker");
+                    return res.status(201).send("Congratulations, you are liker number: " + req.landmark.Likes.toString());
                 }
             });
         });
 
+    landmarkRouter.route('/:landmarkId/deletelike')
+        .patch(function(req,res){
+            if(req.body._id)
+                delete req.body._id;
+
+            req.landmark.Likes = req.landmark.Likes-1;
+
+            req.landmark.save(function(err){
+                if(err)
+                    return res.status(406).send("You can't like this landmark !!!");
+                else{
+                    return res.status(201).send("Congratulations, you are liker number: " + req.landmark.Likes.toString());
+                }
+            });
+        });
+
+    landmarkRouter.route('/:landmarkId')
+        .get(function (req, res) {
+            res.json(req.landmark);
+        });
+        /*.patch(function(req,res){
+            if(req.body._id)
+                delete req.body._id;
+
+            req.landmark.Likes = req.landmark.Likes+1;
+
+            req.landmark.save(function(err){
+                if(err)
+                    return res.status(406).send("You can't like this landmark !!!");
+                else{
+                    return res.status(201).send("Congratulations, you are liker number: " + req.landmark.Likes.toString());
+                }
+            });
+        });*/
     return landmarkRouter;
 };
 
