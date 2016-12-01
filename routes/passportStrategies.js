@@ -94,7 +94,8 @@ module.exports = function(app) {
             clientID: config.google.clientID,
             clientSecret: config.google.clientSecret,
             callbackURL: config.google.callbackURL,
-            passReqToCallback: true
+            passReqToCallback: true,
+            profileFields: ['id', 'emails','displayName', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
         },
         function(request, accessToken, refreshToken, profile, done) {
             Account.findOne({
@@ -108,11 +109,13 @@ module.exports = function(app) {
                 } else {
                     account = new Account({
                         username: "" + profile.id,
+                        email: profile.emails[0].value,
                         socialUsername: profile.displayName,
                         socialLoginId: profile.id,
                         created: Date.now(),
                         authenticationMethod: "Google"
                     });
+                    console.log("Your account's email: " + account.email);
                     account.save(function(err) {
                         if (err) {
                             console.log(err);
@@ -174,7 +177,8 @@ module.exports = function(app) {
     app.get('/auth/google',
         passport.authenticate('google', {
             scope: [
-                'https://www.googleapis.com/auth/plus.login'
+                'https://www.googleapis.com/auth/plus.login',
+                'email'
             ]
         })
     );
