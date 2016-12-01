@@ -17,7 +17,7 @@ var Account = new Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     refreshToken: {type:String, unique: true, default: 'null'},
-    refreshTokenExpires: {type: Date, default: Date.now() + 90000000},
+    refreshTokenExpires: {type: Date, default: Date.now},
     refreshTokenCreated: {type: Date, default:Date.now}
 
 });

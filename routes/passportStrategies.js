@@ -26,7 +26,7 @@ module.exports = function(app) {
                 } else {
                     account = new Account({
                         username: "" + profile.id,
-                        email: 'iseeyou4ever@me.com',
+                        email: profile.emails[0].value,
                         socialUsername: profile.displayName,
                         socialLoginId: profile.id,
                         created: Date.now(),

@@ -63,31 +63,64 @@ module.exports = function(app) {
     //handles post of login
     app.post('/login', passport.authenticate('local'), function(req, res) {
         res.redirect('/');
+        var dateNow = new Date();
+        var date = new Date();
+        var month = date.getMonth();
+        date.setMonth(month + 3);
         var user = new Account(req.user);
         var json = {
             "username": user.username
         }
         var refreshToken = jwt.sign(json,'refreshToken',{
-           expiresIn: Date.now() + 90000000
+           expiresIn: date.getSeconds() - dateNow.getSeconds()
         });
-        var dateTest = Date.now() + 90000000;
+        console.log("Datummmmzzzzz : " + date);
         user.refreshToken = refreshToken;
-        user.refreshTokenExpires = Date.now() + 90000000;
+        user.refreshTokenExpires = date;
         user.save();
-        console.log("Token: " + refreshToken + "Expires in" + req.user.refreshTokenExpires + "Date: " + dateTest + "DateString: " + dateTest.toString());
     });
     app.get('/refreshToken', function(req, res){
-        var user = new Account(req.user);
-        var json = {
-            "username": user.username
+        var refreshToken = req.body.refreshToken || req.query.refreshToken;
+        console.log("Refreshtoken is : " + refreshToken);
+        if(refreshToken){
+                Account.findOne({
+                    refreshToken: refreshToken
+                }, function(err, user) {
+                    if (err) {
+                        console.log(err);
+                    } else{
+                        console.log("User is : " + user.username);
+                        if(user){
+                            var sign = {
+                                "username": user.username
+                            }
+                            var date = new Date();
+                            var month = date.getMonth();
+                            date.setMonth(month + 3);
+                            var refreshToken = jwt.sign(sign,'refreshToken',{
+                                expiresIn: date.getSeconds()
+                            });
+                            var token = jwt.sign(sign, 'ilovechocolate', {
+                                expiresIn: 1440
+                            });
+                            user.token = token;
+                            user.refreshToken = refreshToken;
+                            user.refreshTokenExpires = date;
+                            user.save();
+                            var json = {
+                                "refreshToken": refreshToken,
+                                "token": token
+                            };
+                            console.log("json:" + json);
+                            res.status(201).send(json);
+                        }else{
+                            console.log("User is not authenticated");
+                        }
+                    }
+                })
+            } else{
+            console.log("Refreshtoken does not exist");
         }
-        var refreshToken = jwt.sign(json,'refreshToken',{
-            expiresIn: Date.now() + 90000000
-        });
-        user.refreshToken = refreshToken;
-        user.refreshTokenExpires = Date.now() + 90000000;
-        user.save();
-        res.redirect('/');
     });
     //renders logout page
     app.get('/logout', function(req, res) {
