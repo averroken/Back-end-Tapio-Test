@@ -63,21 +63,6 @@ module.exports = function(app) {
     //handles post of login
     app.post('/login', passport.authenticate('local'), function(req, res) {
         res.redirect('/');
-        var dateNow = new Date();
-        var date = new Date();
-        var month = date.getMonth();
-        date.setMonth(month + 3);
-        var user = new Account(req.user);
-        var json = {
-            "username": user.username
-        }
-        var refreshToken = jwt.sign(json,'refreshToken',{
-           expiresIn: date.getSeconds() - dateNow.getSeconds()
-        });
-        console.log("Datummmmzzzzz : " + date);
-        user.refreshToken = refreshToken;
-        user.refreshTokenExpires = date;
-        user.save();
     });
     app.get('/refreshToken', function(req, res){
         var refreshToken = req.body.refreshToken || req.query.refreshToken;
