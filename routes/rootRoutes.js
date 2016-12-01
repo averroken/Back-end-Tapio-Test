@@ -106,6 +106,51 @@ module.exports = function(app) {
     @apiGroup Default
     @apiDescription Route to render logout page (only on web).
     **/
+    
+    app.get('/refreshToken', function(req, res){
+        var refreshToken = req.body.refreshToken || req.query.refreshToken;
+        console.log("Refreshtoken is : " + refreshToken);
+        if(refreshToken){
+                Account.findOne({
+                    refreshToken: refreshToken
+                }, function(err, user) {
+                    if (err) {
+                        console.log(err);
+                    } else{
+                        console.log("User is : " + user.username);
+                        if(user){
+                            var sign = {
+                                "username": user.username
+                            }
+                            var date = new Date();
+                            var month = date.getMonth();
+                            date.setMonth(month + 3);
+                            var refreshToken = jwt.sign(sign,'refreshToken',{
+                                expiresIn: date.getSeconds()
+                            });
+                            var token = jwt.sign(sign, 'ilovechocolate', {
+                                expiresIn: 1440
+                            });
+                            user.token = token;
+                            user.refreshToken = refreshToken;
+                            user.refreshTokenExpires = date;
+                            user.save();
+                            var json = {
+                                "refreshToken": refreshToken,
+                                "token": token
+                            };
+                            console.log("json:" + json);
+                            res.status(201).send(json);
+                        }else{
+                            console.log("User is not authenticated");
+                        }
+                    }
+                })
+            } else{
+            console.log("Refreshtoken does not exist");
+        }
+    });
+    
     //renders logout page
     app.get('/logout', function(req, res) {
         if (req.user.authenticationMethod === "Facebook") {

@@ -33,8 +33,10 @@ html
 
             if(user.token !== "null")
                 log('token: ' + user.token)
-                p Your token is: !{user.token}
-                button.btn.btn-secondary(type='button' disabled) Refresh token
+                div.tokendiv
+                    p.token Your token is: !{user.token.toString()}
+                a(href='/refreshToken')
+                    button.btn.btn-secondary(type='button') Refresh token
                 br
                 br
 
