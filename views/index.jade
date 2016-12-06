@@ -8,6 +8,10 @@ html
     .container
         h1 Tapio
 
+        if(user)
+          a(href='/logout')#test
+              button.btn.btn-danger(type='button') Logout
+
         if(!user)
             p.lead Control panel
             a(href="/login")
@@ -21,11 +25,20 @@ html
         if(user)
             if(user.authenticationMethod === 'Local')
                 p.lead Control panel of: !{user.username}
+
+                p#userDetails
+                  span.userDetail Name: !{user.username}
+                  span.userDetail Email: !{user.email}
+
+                  //- a(href='/edit')
+                  button.btn.disabled(type='button') Edit
+
+
             else
                 p.lead Control panel of: !{user.socialUsername}
 
             if(user.token === "null")
-                p No token found
+                span.userDetail No token found
                 a(href='/authenticate')
                     button.btn.btn-success(type='button') Get token
                     br
@@ -40,8 +53,7 @@ html
                 br
                 br
 
-            a(href='/logout')
-                button.btn.btn-danger(type='button') Logout
+
             //- a(href='/logout') logout
 
     script(src='http://code.jquery.com/jquery.js')
