@@ -56,7 +56,7 @@ module.exports = function(app) {
         Account.register(new Account({
                 username: req.body.username,
                 email: req.body.email,
-                authenticationMethod: 'Local',
+                authenticationMethod: 'Local'
             }),
             req.body.password,
             function(err, account) {
@@ -106,50 +106,6 @@ module.exports = function(app) {
     @apiGroup Default
     @apiDescription Route to render logout page (only on web).
     **/
-    
-    app.get('/refreshToken', function(req, res){
-        var refreshToken = req.body.refreshToken || req.query.refreshToken;
-        console.log("Refreshtoken is : " + refreshToken);
-        if(refreshToken){
-                Account.findOne({
-                    refreshToken: refreshToken
-                }, function(err, user) {
-                    if (err) {
-                        console.log(err);
-                    } else{
-                        console.log("User is : " + user.username);
-                        if(user){
-                            var sign = {
-                                "username": user.username
-                            }
-                            var date = new Date();
-                            var month = date.getMonth();
-                            date.setMonth(month + 3);
-                            var refreshToken = jwt.sign(sign,'refreshToken',{
-                                expiresIn: date.getSeconds()
-                            });
-                            var token = jwt.sign(sign, 'ilovechocolate', {
-                                expiresIn: 1440
-                            });
-                            user.token = token;
-                            user.refreshToken = refreshToken;
-                            user.refreshTokenExpires = date;
-                            user.save();
-                            var json = {
-                                "refreshToken": refreshToken,
-                                "token": token
-                            };
-                            console.log("json:" + json);
-                            res.status(201).send(json);
-                        }else{
-                            console.log("User is not authenticated");
-                        }
-                    }
-                })
-            } else{
-            console.log("Refreshtoken does not exist");
-        }
-    });
     
     //renders logout page
     app.get('/logout', function(req, res) {
@@ -309,7 +265,7 @@ module.exports = function(app) {
     @apiGroup Password
     @apiDescription Route to handle the password reset post (only on web).
 
-    @apiParam {string} token The <code>token</code> that the user recieved in the email
+    @apiParam {string} token The <code>token</code> that the user received in the email
 
     @apiSuccess message The following message will be shown: <code>"Success! Your password has been changed."</code>
 
@@ -369,5 +325,62 @@ module.exports = function(app) {
         ], function(err) {
             res.redirect('/');
         });
+    });
+    /**
+     @api {post} refreshtoken/:refreshToken Refresh Token
+     @apiName refreshToken
+     @apiGroup Password
+     @apiDescription Route to handle the password reset post (only on web).
+
+     @apiParam {string} token The <code>token</code> that the user received in the email
+     */
+    app.get('/refreshToken', function(req, res){
+        var refreshToken = req.body.refreshToken || req.query.refreshToken;
+        console.log("Refreshtoken is : " + refreshToken);
+        if(refreshToken){
+            Account.findOne({
+                refreshToken: refreshToken
+            }, function(err, user) {
+                if (err) {
+                    console.log(err);
+                } else{
+                    console.log("User is : " + user.username);
+                    if(user){
+                        var sign = {
+                            "username": user.username
+                        }
+                        var date = new Date();
+                        var month = date.getMonth();
+                        date.setMonth(month + 3);
+                        var refreshToken = jwt.sign(sign,'refreshToken',{
+                            expiresIn: date.getSeconds()
+                        });
+                        var token = jwt.sign(sign, 'ilovechocolate', {
+                            expiresIn: 1440
+                        });
+                        user.token = token;
+                        user.refreshToken = refreshToken;
+                        user.refreshTokenExpires = date;
+                        user.save();
+                        var json = {
+                            "refreshToken": refreshToken,
+                            "token": token
+                        };
+                        console.log("json:" + json);
+                        res.status(201).send(json);
+                    }else{
+                        var json = {
+                            "error" : "The refreshtoken does not exist"
+                        }
+                        res.status(201).send(json);
+                    }
+                }
+            })
+        } else{
+            var json = {
+                "error" : "No refreshtoken given"
+            }
+            res.status(201).send(json);
+        }
     });
 };
