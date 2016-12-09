@@ -3,7 +3,7 @@ const FacebookStrategy = require('passport-facebook');
 const FacebookTokenStrategy = require('passport-facebook-token');
 const GoogleStrategy = require('passport-google-oauth2');
 const jwt = require('jsonwebtoken');
-var config = require('../oauthCredentials.js');
+var config = require('../oauthCredentialsHeroku.js');
 var Account = require('../models/account');
 
 module.exports = function(app) {
@@ -42,15 +42,16 @@ module.exports = function(app) {
                             console.log("saving user");
                             done(null, user);
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
     ));
 
     passport.use(new FacebookTokenStrategy({
         clientID: config.facebook.clientID,
-        clientSecret: config.facebook.clientSecret
+        clientSecret: config.facebook.clientSecret,
+        profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
     }, function(accessToken, refreshToken, profile, done) {
         Account.findOne({
             socialLoginId: profile.id
@@ -65,14 +66,18 @@ module.exports = function(app) {
                     username: "" + profile.id,
                     socialUsername: profile.displayName,
                     socialLoginId: profile.id,
+                    email: 'iseeyou4ever@ymail.com',
                     created: Date.now(),
                     authenticationMethod: "Facebook-token",
                     facebokToken: accessToken
                 });
                 var token = account.token;
                 console.log("passport-token: " + token);
+                var json = {
+                  "username" : account.username
+                };
                 if (token === "null") {
-                    token = jwt.sign(account, 'ilovechocolate', {
+                    token = jwt.sign(json, 'ilovechocolate', {
                         expiresIn: 1440
                     });
                     account.token = token;
@@ -85,10 +90,10 @@ module.exports = function(app) {
                         console.log("saving user");
                         done(null, user);
                     }
-                })
+                });
             }
-        })
-    }))
+        });
+    }));
 
     passport.use(new GoogleStrategy({
             clientID: config.google.clientID,
@@ -123,9 +128,9 @@ module.exports = function(app) {
                             console.log("saving user");
                             done(null, user);
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
     ));
 
@@ -161,7 +166,8 @@ module.exports = function(app) {
         function(req, res) {
             var token = "null";
             if (req.user.token !== "null") {
-                token = req.user.token
+              console.log(req.user.token);
+                token = req.user.token;
             }
             if (req.user) {
                 res.status(200).send({
@@ -172,7 +178,7 @@ module.exports = function(app) {
             }
             // res.send(req.user ? 200 : 400);
         }
-    )
+    );
 
     app.get('/auth/google',
         passport.authenticate('google', {
