@@ -11,7 +11,7 @@ var Landmark = require('./models/landmarkModel');
 //routeFiles
 var testRoutes = require('./routes/testRoutes.js');
 var rootRoutes = require('./routes/rootRoutes.js');
-var landmarkRoutes = require('./Routes/landmarkRoutes')(Landmark);
+var landmarkRoutes = require('./routes/landmarkRoutes')(Landmark);
 
 module.exports = function(app) {
     app.use('/api', testRoutes); //WARNING ADDED TOKEN VALIDATION
