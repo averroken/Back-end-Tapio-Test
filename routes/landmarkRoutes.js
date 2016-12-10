@@ -8,18 +8,26 @@ var routes = function(Landmark) {
 
             landmark.save(function(err) {
                 if (err) {
-                    var test = err;
+                    var errorMessage = err;
+                    var message = "Missing: ";
+                    if (errorMessage.errors.Name) message += "Name,";
+                    if (errorMessage.errors.Description) message += "Description,";
+                    if (errorMessage.errors.Type) message += "Type,";
+                    if (errorMessage.errors.Lat) message += "Lat,";
+                    if (errorMessage.errors.Long) message += "Long,";
+                    if (errorMessage.errors.Country) message += "Country,";
+                    if (errorMessage.errors.ImageURLBig) message += "ImageURLBig,";
+
                     var json = {
                         "awnser": "Failed to create json",
-                        "message": test.errors
+                        "message": message
                     };
                     return res.status(406).json(json);
                 } else {
+                    var message = "id: " + landmark._id;
                     var json = {
                         "awnser": "Successfully created landmark",
-                        "message": {
-                          "id" : landmark._id 
-                        }
+                        "message": message
                     };
                     res.status(201).json(json);
                 }
