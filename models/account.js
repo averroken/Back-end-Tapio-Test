@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 
 var Account = new Schema({
     username: {type: String, required: true, default: 'null'},
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique:true },
     socialUsername: {type: String, required: false, default: 'null'},
     password: {type: String},
     token: {type: String, unique: true, default: 'null' },
@@ -15,9 +15,11 @@ var Account = new Schema({
     tokenExpireDate: {type: Date},
     PasswordChangedDate: {type: Date, default:Date.now},
     resetPasswordToken: String,
-    resetPasswordExpires: Date
-    // TODO: add tokenCreationDate::
-    // TODO: add tokenExpireDate::
+    resetPasswordExpires: Date,
+    refreshToken: {type:String, unique: true, default: 'null'},
+    refreshTokenExpires: {type: Date, default: Date.now},
+    refreshTokenCreated: {type: Date, default:Date.now}
+
 });
 
 Account.plugin(passportLocalMongoose);
