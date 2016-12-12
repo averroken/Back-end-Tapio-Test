@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const async = require('async');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const wc = require('which-country');
 
 module.exports = function(app) {
     //checks (with request parameter) if user is logged in
@@ -38,19 +39,19 @@ module.exports = function(app) {
 
     // TODO: add @apiParamExample
     /**
-    @api {post} register Register
-    @apiName Register
-    @apiGroup Default
-    @apiDescription Route to register users (both on web and android).
+     @api {post} register Register
+     @apiName Register
+     @apiGroup Default
+     @apiDescription Route to register users (both on web and android).
 
-    @apiParam {string} username The <code>name</code> the user wants to use
-    @apiParam {string} email The <code>email</code> the user wants to use
-    @apiParam {string} password The <code>password</code> the user wants to use
+     @apiParam {string} username The <code>name</code> the user wants to use
+     @apiParam {string} email The <code>email</code> the user wants to use
+     @apiParam {string} password The <code>password</code> the user wants to use
 
-    @apiSuccess redirect The user is redirected to the index ('/') page
+     @apiSuccess redirect The user is redirected to the index ('/') page
 
-    @apiError username_taken The user is redirected to the register ('/') page, and gets a message that says the username is already taken
-    **/
+     @apiError username_taken The user is redirected to the register ('/') page, and gets a message that says the username is already taken
+     **/
     //handles post on register
     app.post('/register', function(req, res) {
         Account.register(new Account({
@@ -74,11 +75,11 @@ module.exports = function(app) {
     });
 
     /**
-    @api {get} login Login (get)
-    @apiName Login
-    @apiGroup Default
-    @apiDescription Route to render login page (only on web).
-    **/
+     @api {get} login Login (get)
+     @apiName Login
+     @apiGroup Default
+     @apiDescription Route to render login page (only on web).
+     **/
     //renders login page
     app.get('/login', function(req, res) {
         res.render('login', {
@@ -87,14 +88,14 @@ module.exports = function(app) {
     });
 
     /**
-    @api {post} login Login
-    @apiName Login (post)
-    @apiGroup Default
-    @apiDescription Route to login users (only on web).
+     @api {post} login Login
+     @apiName Login (post)
+     @apiGroup Default
+     @apiDescription Route to login users (only on web).
 
-    @apiSuccess redirect The user is redirected to the index ('/') page, where the user can see his <code>token</code>
+     @apiSuccess redirect The user is redirected to the index ('/') page, where the user can see his <code>token</code>
 
-    **/
+     **/
     //handles post of login
     app.post('/login', passport.authenticate('local'), function(req, res) {
         res.redirect('/');
@@ -118,12 +119,12 @@ module.exports = function(app) {
     })
 
     /**
-    @api {get} logout Logout
-    @apiName Logout
-    @apiGroup Default
-    @apiDescription Route to render logout page (only on web).
-    **/
-    
+     @api {get} logout Logout
+     @apiName Logout
+     @apiGroup Default
+     @apiDescription Route to render logout page (only on web).
+     **/
+
     //renders logout page
     app.get('/logout', function(req, res) {
         if (req.user.authenticationMethod === "Facebook") {
@@ -139,14 +140,14 @@ module.exports = function(app) {
     })
 
     /**
-    @api {get} authenticate Authenticate
-    @apiName Authenticate
-    @apiGroup Default
-    @apiDescription Route to generate a <code>token</code> for the logged in user.
+     @api {get} authenticate Authenticate
+     @apiName Authenticate
+     @apiGroup Default
+     @apiDescription Route to generate a <code>token</code> for the logged in user.
 
-    @apiSuccess redirect The user is redirected to the index ('/') page, where it shows the new <code>token</code>
+     @apiSuccess redirect The user is redirected to the index ('/') page, where it shows the new <code>token</code>
 
-    **/
+     **/
     //route to generate token for logged in users
     app.get('/authenticate', isAuthenticated, function(req, res) {
         var user = new Account(req.user);
@@ -171,11 +172,11 @@ module.exports = function(app) {
     });
 
     /**
-    @api {get} changePassword Change Password (get)
-    @apiName changePassword
-    @apiGroup Password
-    @apiDescription Route to render change password page (only on web).
-    **/
+     @api {get} changePassword Change Password (get)
+     @apiName changePassword
+     @apiGroup Password
+     @apiDescription Route to render change password page (only on web).
+     **/
     app.get('/changePassword', function(req, res) {
         var errors = req.flash('error');
         res.render('changePassword', {
@@ -184,17 +185,17 @@ module.exports = function(app) {
     });
 
     /**
-    @api {post} changePassword Change Password
-    @apiName changePassword_post
-    @apiGroup Password
-    @apiDescription Route to handle the change password post (only on web).
+     @api {post} changePassword Change Password
+     @apiName changePassword_post
+     @apiGroup Password
+     @apiDescription Route to handle the change password post (only on web).
 
-    @apiParam {string} email The <code>email</code> that the user used to register his account
+     @apiParam {string} email The <code>email</code> that the user used to register his account
 
-    @apiSuccess message A message containing <code>"An email has been sent to your address."</code> will be shown.
+     @apiSuccess message A message containing <code>"An email has been sent to your address."</code> will be shown.
 
-    @apiError Email_not_found No account with that <code>email</code> address exists.
-    **/
+     @apiError Email_not_found No account with that <code>email</code> address exists.
+     **/
     //ADD PASSWORD CHANGE ROUTE
     app.post('/changePassword', function(req, res, next) {
         async.waterfall([
@@ -234,9 +235,9 @@ module.exports = function(app) {
                     from: 'noreply@Tapio.com',
                     subject: 'Tapio Password Reset',
                     text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                        'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-                        'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                 };
                 smtpTransport.sendMail(mailOptions, function(err) {
                     req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
@@ -250,15 +251,15 @@ module.exports = function(app) {
     });
 
     /**
-    @api {get} reset/:token Reset Password (get)
-    @apiName resetpassword_get
-    @apiGroup Password
-    @apiDescription Route to render the password reset page (only on web) if the token is correct.
+     @api {get} reset/:token Reset Password (get)
+     @apiName resetpassword_get
+     @apiGroup Password
+     @apiDescription Route to render the password reset page (only on web) if the token is correct.
 
-    @apiParam {string} token The <code>token</code> that the user recieved in the email
+     @apiParam {string} token The <code>token</code> that the user recieved in the email
 
-    @apiError invalid_token The following message will be shown: <code>"Password reset token is invalid or has expired"</code>
-    **/
+     @apiError invalid_token The following message will be shown: <code>"Password reset token is invalid or has expired"</code>
+     **/
     app.get('/reset/:token', function(req, res) {
         Account.findOne({
             resetPasswordToken: req.params.token,
@@ -277,17 +278,17 @@ module.exports = function(app) {
     });
 
     /**
-    @api {post} reset/:token Reset Password
-    @apiName resetpassword
-    @apiGroup Password
-    @apiDescription Route to handle the password reset post (only on web).
+     @api {post} reset/:token Reset Password
+     @apiName resetpassword
+     @apiGroup Password
+     @apiDescription Route to handle the password reset post (only on web).
 
-    @apiParam {string} token The <code>token</code> that the user received in the email
+     @apiParam {string} token The <code>token</code> that the user received in the email
 
-    @apiSuccess message The following message will be shown: <code>"Success! Your password has been changed."</code>
+     @apiSuccess message The following message will be shown: <code>"Success! Your password has been changed."</code>
 
-    @apiError invalid_token The following message will be shown: <code>"Password reset token is invalid or has expired"</code>
-    **/
+     @apiError invalid_token The following message will be shown: <code>"Password reset token is invalid or has expired"</code>
+     **/
     app.post('/reset/:token', function(req, res) {
         async.waterfall([
             function(done) {
@@ -332,7 +333,7 @@ module.exports = function(app) {
                     from: 'noreply@Tapio.com',
                     subject: 'Your password has been changed',
                     text: 'Hello,\n\n' +
-                        'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+                    'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
                 };
                 smtpTransport.sendMail(mailOptions, function(err) {
                     req.flash('success', 'Success! Your password has been changed.');

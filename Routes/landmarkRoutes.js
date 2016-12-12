@@ -1,12 +1,15 @@
 var express = require('express');
-
+var wc = require('which-country');
 
 var routes = function (Landmark) {
     var landmarkRouter = express.Router();
     landmarkRouter.route('/')
         .post(function (req, res) {
             var landmark = new Landmark(req.body);
-
+            var lon = landmark.Long;
+            var lat = landmark.Lat;
+            landmark.Country = wc([lon, lat]);
+            console.log("Landmark is: " + landmark.country + "Lon : " + lon + "Lat : " + lat);
             landmark.save();
             res.status(201).send(landmark);
         })

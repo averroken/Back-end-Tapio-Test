@@ -3,13 +3,14 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var landmarkModel = new Schema({
-    name: {type: String, required: true},
-    type: {type: String, required: true},
-    description: {type: String, required: true},
+    Name: {type: String, required: true},
+    Type: {type: String, required: true},
+    Description: {type: String, required: true},
     visits: {type: Number, required: false},
     likes: {type: Number, required: false},
-    lat: {type: Number, required: true},
-    long: {type: Number, required: true}
+    Lat: {type: Number, required: true},
+    Long: {type: Number, required: true},
+    Country: {type:String, required:true}
 });
 
 module.exports = mongoose.model('Landmark', landmarkModel);

@@ -10,6 +10,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const methodOverride = require('method-override');
 const expressSession = require('express-session');
+const wc = require('which-country');
 const flash = require('connect-flash');
 var app = express();
 app.set('port', process.env.PORT || 1337);
