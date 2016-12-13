@@ -3,25 +3,47 @@ var express = require('express');
 var routes = function (Account) {
     var accountRouter = express.Router();
 
-    accountRouter.use('/:accountId', function(req,res,next){
-        Account.findById(req.params.accountId, function(err,account){
-            if(err)
-                res.status(500).send(err);
-            else if(account)
+    accountRouter.route('/')
+        .post(function(req, res){
+            var book = new Account(req.body);
+
+
+            book.save();
+            res.status(201).send(book);
+
+        })
+        .get(function(req,res){
+
+            var query = {};
+
+            if(req.query.genre)
             {
-                for (var p in req.body) {
-                    req.account[p] = req.body[p];
-                }
-                req.account = account;
-                console.log(req.account);
-                next();
+                query.genre = req.query.genre;
             }
-            else
-            {
-                res.status(404).send('no accountId found');
-            }
+
+            Account.find(query, function(err,books){
+                if(err)
+                    res.status(500).send(err);
+                else
+                    res.json(books);
+            });
         });
-    });
+
+        accountRouter.use('/:accountId', function(req,res,next){
+            Account.findById(req.params.accountId, function(err,account){
+                if(err)
+                    res.status(500).send(err);
+                else if(account)
+                {
+                    req.account = account;
+                    next();
+                }
+                else
+                {
+                    res.status(404).send('no account found');
+                }
+            });
+        });
 
     accountRouter.route('/:accountId')
         .get(function (req, res) {
