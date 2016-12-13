@@ -30,4 +30,9 @@ module.exports = function(app) {
         res.status(403);
         res.render('403', {});
     });
+
+    app.use(function (err, req, res, next) {
+      console.error(err.stack);
+      res.status(500).render('404', {info: 'Server Error'});
+    });
 };

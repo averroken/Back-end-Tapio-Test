@@ -170,7 +170,7 @@ module.exports = function(app) {
                 token = req.user.token;
             }
             if (req.user) {
-                res.status(200).send({
+                res.status(200).json({
                     "token": token
                 });
             } else {
