@@ -9,20 +9,20 @@ var routes = function(Landmark) {
             landmark.save(function(err) {
                 if (err) {
                     var errorMessage = err;
-                    var message = "Missing: ";
-                    if (errorMessage.errors.Name) message += "Name,";
-                    if (errorMessage.errors.Description) message += "Description,";
-                    if (errorMessage.errors.Type) message += "Type,";
-                    if (errorMessage.errors.Lat) message += "Lat,";
-                    if (errorMessage.errors.Long) message += "Long,";
-                    if (errorMessage.errors.Country) message += "Country,";
-                    if (errorMessage.errors.ImageURLBig) message += "ImageURLBig,";
+                    var message0 = "Missing: ";
+                    if (errorMessage.errors.Name) message0 += "Name,";
+                    if (errorMessage.errors.Description) message0 += "Description,";
+                    if (errorMessage.errors.Type) message0 += "Type,";
+                    if (errorMessage.errors.Lat) message0 += "Lat,";
+                    if (errorMessage.errors.Long) message0 += "Long,";
+                    if (errorMessage.errors.Country) message0 += "Country,";
+                    if (errorMessage.errors.ImageURLBig) message0 += "ImageURLBig,";
 
-                    var json = {
+                    var jsonfail = {
                         "awnser": "Failed to create json",
-                        "message": message
+                        "message": message0
                     };
-                    return res.status(406).json(json);
+                    return res.status(406).json(jsonfail);
                 } else {
                     var message = "id: " + landmark._id;
                     var json = {

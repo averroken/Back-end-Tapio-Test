@@ -8,7 +8,7 @@ testRoutes.use(function(req, res, next) {
     if (token) {
         jwt.verify(token, 'ilovechocolate', function(err, decoded) {
             if (err) {
-                res.status(403)
+                res.status(403);
                 // return res.json({
                 //     success: false,
                 //     message: 'Failed to authenticate token'
@@ -21,7 +21,7 @@ testRoutes.use(function(req, res, next) {
         });
     } else {
         res.status(403);
-        res.render('403', {info: "No token provided"})
+        res.render('403', {info: "No token provided"});
 
         //  .send({
         //     success: 'false',
