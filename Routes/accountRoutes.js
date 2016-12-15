@@ -85,6 +85,44 @@ var routes = function (Account) {
             });
         });
 
+    accountRouter.route('/:accountId/addFavouriteLandmark')
+        /* Example API CALL */
+        //localhost:1337/api/account/584fc0f39efc92183c26e857/addFavouriteLandmark?landmarkid=98745632222
+        .patch(function(req, res) {
+            var landmarkid = req.query.landmarkid;
+            if(landmarkid){
+                    req.account.favourites.push({"landmarkID": landmarkid});
+                    console.log(req.account.favourites);
+                    req.account.save(function(err) {
+                        if (err) {
+                            //throw err;
+                            return res.status(406).send("Adding ID to account is failed!");
+                        }
+                    });
+                return res.status(201).send("Update succeeded: " + req.query.landmarkid);
+            } else {
+                res.status(406).send("I need the ID of the landmark you liked.");
+            }
+        });
+
+    accountRouter.route('/:accountId/removeFavouriteLandmark')
+        .patch(function(req, res) {
+            var landmarkid = req.query.landmarkid;
+            if(landmarkid){
+                req.account.favourites.splice({landmarkID: landmarkid});
+                console.log(req.account.favourites);
+                req.account.save(function(err) {
+                    if (err) {
+                        //throw err;
+                        return res.status(406).send("Adding ID to account is failed!");
+                    }
+                });
+                return res.status(201).send("Update succeeded: " + req.query.landmarkid);
+            } else {
+                res.status(406).send("I need the ID of the landmark you liked.");
+            }
+        });
+
     return accountRouter;
 };
 
