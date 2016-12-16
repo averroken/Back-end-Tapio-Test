@@ -11,12 +11,42 @@ var upload = multer(
         },
         dest: 'uploads/' }
 );
-
-
+//
+// app.post('/upload', upload.any(), function (req, res) {
+//
+//     console.log("file: " + req.files);
+//
+//     var tmp_path = req.files[0].path;
+//
+//     var target_path = 'uploads/' + req.files[0].originalname;
+//
+//     var src = fs.createReadStream(tmp_path);
+//     var dest = fs.createWriteStream(target_path);
+//     src.pipe(dest);
+//     src.on('end', function () {
+//         res.send("ok: " + target_path);
+//     });
+//     src.on('error', function (err) {
+//         res.send({error: "upload failed"});
+//     });
+// });
+//
+// app.get('/info', function (req, res) {
+//     console.log(__dirname);
+//     res.send("image upload server: post /upload");
+// });
 var routes = function (Landmark) {
     var landmarkRouter = express.Router();
     landmarkRouter.route('/')
-        .post(function (req, res) {
+        .post(upload.any(),function (req, res) {
+            var tmp_path = req.files[0].path;
+
+            var target_path = 'uploads/' + req.files[0].originalname;
+
+            var src = fs.createReadStream(tmp_path);
+            var dest = fs.createWriteStream(target_path);
+            src.pipe(dest);
+            console.log('File name: ' + target_path);
             var landmark = new Landmark(req.body);
             var lon = landmark.Long;
             var lat = landmark.Lat;
