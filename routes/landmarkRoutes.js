@@ -9,7 +9,6 @@ var routes = function (Landmark) {
             var landmark = new Landmark(req.body);
             var lon = landmark.Long;
             var lat = landmark.Lat;
-            landmark.Image = target_path;
             landmark.Country = wc([lon, lat]);
             console.log("Landmark is: " + landmark.country + "Lon : " + lon + "Lat : " + lat);
             landmark.save();
