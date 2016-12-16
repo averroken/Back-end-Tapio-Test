@@ -3,7 +3,7 @@ const FacebookStrategy = require('passport-facebook');
 const FacebookTokenStrategy = require('passport-facebook-token');
 const GoogleStrategy = require('passport-google-oauth2');
 const jwt = require('jsonwebtoken');
-var config = require('../oauthCredentials.js');
+var config = require('../oauthCredentialsHeroku.js');
 var Account = require('../models/account');
 
 module.exports = function(app) {

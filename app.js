@@ -50,8 +50,8 @@ passport.deserializeUser(Account.deserializeUser());
 mongoose.Promise = global.Promise;
 
 //connecting to database
-mongoose.connect('mongodb://localhost:27017/master1');
-// mongoose.connect(process.env.MONGODB_URI);
+//mongoose.connect('mongodb://localhost:27017/master1');
+mongoose.connect(process.env.MONGODB_URI);
 
 //getting and setting the routes
 require('./routeImplementation')(app);

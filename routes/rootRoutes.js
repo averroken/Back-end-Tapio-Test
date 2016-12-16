@@ -346,12 +346,12 @@ app.post('/reset/:token', function (req, res) {
     });
 });
 /**
- @api {post} refreshtoken/:refreshToken Refresh Token
+ @api {post} refreshtoken Refresh Token
  @apiName refreshToken
  @apiGroup Password
  @apiDescription Route to handle the password reset post (only on web).
 
- @apiParam {string} token The <code>token</code> that the user received in the email
+ @apiParam {string} refreshtoken The <code>refreshtoken</code> that the user received in the email
  */
 app.get('/refreshToken', function (req, res) {
     var refreshToken = req.body.refreshToken || req.query.refreshToken;

@@ -10,7 +10,8 @@ var landmarkModel = new Schema({
     likes: {type: Number, required: false},
     Lat: {type: Number, required: true},
     Long: {type: Number, required: true},
-    Country: {type:String, required:true}
+    Country: {type:String, required:true},
+    Image: {type:String, default: "/public/img/default.png"}
 });
 
 module.exports = mongoose.model('Landmark', landmarkModel);

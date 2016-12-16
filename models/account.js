@@ -18,7 +18,8 @@ var Account = new Schema({
     resetPasswordExpires: Date,
     refreshToken: {type:String, unique: true, default: 'null'},
     refreshTokenExpires: {type: Date, default: Date.now},
-    refreshTokenCreated: {type: Date, default:Date.now}
+    refreshTokenCreated: {type: Date, default:Date.now},
+    image: {type:String, default:"Dit is dummy shit"}
 
 });
 

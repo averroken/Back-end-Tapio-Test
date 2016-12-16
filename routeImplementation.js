@@ -5,6 +5,7 @@ var Account = require('./models/account');
 var Landmark = require('./models/landmarkModel');
 var express = require('express');
 var testRoutes = require('./routes/testRoutes.js');
+var uploadRoutes = require('./routes/uploadRoutes.js');
 var rootRoutes = require('./routes/rootRoutes.js');
 // var testRoutes = express.Router();
 
