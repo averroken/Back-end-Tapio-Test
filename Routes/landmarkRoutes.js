@@ -1,5 +1,17 @@
 var express = require('express');
 var wc = require('which-country');
+//Image upload
+var fs = require('fs');
+var multer = require('multer');
+var upload = multer(
+    {
+        limits: {
+            fieldNameSize: 999999999,
+            fieldSize: 999999999
+        },
+        dest: 'uploads/' }
+);
+
 
 var routes = function (Landmark) {
     var landmarkRouter = express.Router();
@@ -69,6 +81,7 @@ var routes = function (Landmark) {
         });
 
     return landmarkRouter;
+
 };
 
 module.exports = routes;

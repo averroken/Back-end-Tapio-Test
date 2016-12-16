@@ -15,6 +15,7 @@ var rootRoutes = require('./routes/rootRoutes.js');
 var landmarkRoutes = require('./routes/landmarkRoutes')(Landmark);
 
 module.exports = function(app) {
+    require('./routes/uploadRoutes')(app);
     app.use('/api', testRoutes);
     app.use('/api/landmarks', landmarkRoutes);
     require('./routes/rootRoutes')(app);
