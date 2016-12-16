@@ -42,14 +42,15 @@ var routes = function (Landmark) {
             var tmp_path = req.files[0].path;
 
             var target_path = 'uploads/' + req.files[0].originalname;
-
+            var landmark = new Landmark(req.body);
+            console.log('File name: ' + target_path);
+            console.log('Landmark: ' + landmark.Name);
             var src = fs.createReadStream(tmp_path);
             var dest = fs.createWriteStream(target_path);
             src.pipe(dest);
-            console.log('File name: ' + target_path);
-            var landmark = new Landmark(req.body);
             var lon = landmark.Long;
             var lat = landmark.Lat;
+            landmark.Image = target_path;
             landmark.Country = wc([lon, lat]);
             console.log("Landmark is: " + landmark.country + "Lon : " + lon + "Lat : " + lat);
             landmark.save();
