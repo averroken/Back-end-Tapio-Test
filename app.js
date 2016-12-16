@@ -15,6 +15,7 @@ const flash = require('connect-flash');
 var app = express();
 app.set('port', process.env.PORT || 1337);
 app.set('views', __dirname + '/views');
+app.use('/uploads', express.static('uploads'));
 app.set('view engine', 'jade');
 app.set('view options', {layout: false});
 app.use(morgan('dev'));

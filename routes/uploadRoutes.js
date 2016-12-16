@@ -1,36 +1,40 @@
-/**
- * Created by DarthSwedo on 12/15/2016.
- */
-    //Test uploading image
+var fs = require('fs');
 
-var multer  =   require('multer');
 var express = require('express');
-var routes = function (Landmark) {
-    var landmarkRouter = express.Router();
-    var storage = multer.diskStorage({
-        destination: function (req, file, callback) {
-            callback(null, './uploads');
+var app = express();
+
+var multer = require('multer');
+var upload = multer(
+    {
+        limits: {
+            fieldNameSize: 999999999,
+            fieldSize: 999999999
         },
-        filename: function (req, file, callback) {
-            callback(null, file.fieldname + '-' + Date.now());
-        }
-    });
-    var upload = multer({storage: storage}).single('userPhoto');
+        dest: 'uploads/' }
+);
+module.exports = function (app) {
+    app.post('/upload', upload.any(), function (req, res) {
 
-    landmarkRouter.route('/api/uploadfile').get(function (req, res) {
-        console.log("Directory: " + __dirname);
-        res.sendFile(__dirname + "/views/index.jade");
-    });
+        console.log("file: " + req.files);
 
-    landmarkRouter.route('/api/photo').post(function (req, res) {
-        upload(req, res, function (err) {
-            if (err) {
-                console.log("Error: " + err);
-                return res.end("Error uploading file.");
-            }
-            res.end("File is uploaded");
+        var tmp_path = req.files[0].path;
+
+        var target_path = 'uploads/' + req.files[0].originalname;
+
+        var src = fs.createReadStream(tmp_path);
+        var dest = fs.createWriteStream(target_path);
+        src.pipe(dest);
+        src.on('end', function () {
+            res.send("ok: " + target_path);
         });
+        src.on('error', function (err) {
+            res.send({error: "upload failed"});
+        });
+    });
+
+    app.get('/info', function (req, res) {
+        console.log(__dirname);
+        res.send("image upload server: post /upload");
     });
 }
 
-module.exports = routes;
