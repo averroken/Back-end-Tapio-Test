@@ -12,6 +12,14 @@ var upload = multer(
         dest: 'uploads/' }
 );
 module.exports = function (app) {
+    /**
+     @api {post} upload?landmarkId Upload Image
+     @apiName Upload Image
+     @apiGroup Upload an Image
+     @apiDescription Route to handle the upload of an image.
+
+     @apiParam {int} landmarkId The <code>landmarkId</code> of the landmark that the image is assigned to.
+     */
     app.post('/upload', upload.any(), function (req, res) {
         var landmarkId = req.query.landmarkId || req.params.landmarkId ;
         console.log('LandmarkId given is: ' + landmarkId);

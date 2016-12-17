@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     jsHint = require('gulp-jshint'),
     jsStylish = require('jshint-stylish'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    apidoc = require('gulp-api-doc');
 
 
 const PATHS = {
@@ -17,6 +18,10 @@ const PATHS = {
     },
     JS: {
         SRC: './*js'
+    },
+    APIDOC: {
+        SRC: './Routes/*.js',
+        DEST: './ApiDoc/'
     }
 };
 
@@ -32,6 +37,13 @@ gulp.task('default', function() {
 
     var jsWatcher = gulp.watch(PATHS.JS.SRC, ['js']);
     cssWatcher.on('change', function(event) {
+        console.log("File: " + event.path + " was " + event.type);
+    });
+});
+
+gulp.task('apidoc', function() {
+    var routesWatcher = gulp.watch(PATHS.APIDOC.SRC, ['apidocMaker']);
+    routesWatcher.on('change', function(event) {
         console.log("File: " + event.path + " was " + event.type);
     });
 });
@@ -61,9 +73,13 @@ gulp.task('js', function() {
         .pipe(jsHint())
         .pipe(jsHint.reporter(jsStylish))
         .pipe(jsHint.reporter('fail'))
-        .on('error', notify.onError({ message: 'JS hint found some errors'}));
+        .on('error', notify.onError({
+            message: 'JS hint found some errors'
+        }));
 });
 
-// .pipe(notify({
-//     message: "watched js, check output for warnings"
-// }));
+gulp.task('apidocMaker', function() {
+    gulp.src('Routes/*.js')
+        .pipe(apidoc())
+        .pipe(gulp.dest('ApiDoc/'))
+});
