@@ -1,7 +1,6 @@
 var express = require('express');
 var wc = require('which-country');
 //Image upload
-
 var routes = function (Landmark) {
     var landmarkRouter = express.Router();
     landmarkRouter.route('/')

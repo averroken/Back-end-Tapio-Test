@@ -13,7 +13,7 @@ var upload = multer(
 );
 module.exports = function (app) {
     app.post('/upload', upload.any(), function (req, res) {
-        var landmarkId = req.params.landmarkId;
+        var landmarkId = req.query.landmarkId || req.params.landmarkId ;
         console.log('LandmarkId given is: ' + landmarkId);
         if(landmarkId) {
             Landmark.findOne({
