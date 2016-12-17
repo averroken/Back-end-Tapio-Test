@@ -36,6 +36,7 @@ module.exports = function (app) {
                     res.send({error: "upload failed"});
                 });
                 landmark.Image = target_path;
+                landmark.save();
                 res.status(201).send(landmark);
             });
         } else {
