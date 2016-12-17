@@ -117,12 +117,58 @@ var routes = function(Landmark) {
             });
         });
 
+    /**
+     @api {get} api/landmarks/filterlocatie/ Get all landmarks by country
+     @apiName Get all landmarks by country
+     @apiGroup Landmark
+     @apiDescription A route to get all the <code>Landmarks by country</code> in the database.
+
+     @apiParam token <code>token</code> is required
+     @apiParam Country <code>token</code> is required
+
+     @apiSuccess landmark_collection All the <code>Landmarks by country</code> are shown
+
+     @apiSuccessExample Example success response:
+     {
+       "landmarks": [
+         {
+           "_id": "584c9bf7c860880004953fe3",
+           "Country": "Belgium",
+           "Description": "test",
+           "ImageURLBig": "https://media.mnn.com/assets/images/2015/03/forest-path-germany.jpg.653x0_q80_crop-smart.jpg",
+           "Lat": 50,
+           "Long": 50,
+           "Name": "test",
+           "Type": "test",
+           "__v": 0
+         },
+         {
+           "_id": "584c9c02c860880004953fe4",
+           "Country": "Belgium",
+           "Description": "test",
+           "ImageURLBig": "https://media.mnn.com/assets/images/2015/03/forest-path-germany.jpg.653x0_q80_crop-smart.jpg",
+           "Lat": 50,
+           "Long": 50,
+           "Name": "test2",
+           "Type": "test",
+           "__v": 0
+         }
+       ]
+     }
+
+     @apiError No_token No <code>token</code> provided. <code>token</code> is required.
+     @apiError No_country No <code>country</code> provided. <code>country</code> is required.
+     @apiError Wrong_token Failed to authenticate <code>token</code>.
+     @apiError db_error Statuscode <code>500</code> and <code>error</code> are returned.
+     **/
     landmarkRouter.route('/filterlocatie')
         .get(function(req, res) {
             var query = {};
 
             if (req.query.Country) {
                 if (req.query.Country) query.Country = req.query.Country;
+            } else {
+
             }
 
             Landmark.find(query, function(err, landmarks) {
@@ -136,7 +182,7 @@ var routes = function(Landmark) {
         });
 
     /**
-     @api {get} api/landmarks/location Get all landmarks (short)
+     @api {get} api/landmarks/filterlocatieshort Get all landmarks (short)
      @apiName Get all landmarks (short)
      @apiGroup Landmark
      @apiDescription A route to get all the <code>Landmarks</code> in the database, with limited information.
@@ -205,6 +251,26 @@ var routes = function(Landmark) {
         });
     });
 
+    /**
+     @api {patch} {landmarkId}/addlike Like a landmark
+     @apiName Like landmark (short)
+     @apiGroup Landmark
+     @apiDescription A route to like a <code>Landmarks</code> in the database, with limited information.
+
+     @apiParam token <code>token</code> is required
+     @apiParam landmarkId <code>landmarkId</code> is required
+
+     @apiSuccess landmark_collection The <code>Landmarks</code> is now liked.
+
+     @apiSuccessExample Example success response:
+     Congratulations, you are liker number: XXXXXXXX
+
+     @apiError No_token No <code>token</code> provided. <code>token</code> is required.
+     @apiError No_landmarkId No <code>landmarkId</code> provided. <code>landmarkId</code> is required.
+
+     @apiError Wrong_token Failed to authenticate <code>token</code>.
+     @apiError db_error Statuscode <code>500</code> and <code>error</code> are returned.
+     **/
     landmarkRouter.route('/:landmarkId/addlike')
         .patch(function(req, res) {
             if (req.body._id)
@@ -221,6 +287,26 @@ var routes = function(Landmark) {
             });
         });
 
+    /**
+     @api {patch} {landmarkId}/deletelike Dislike a landmark
+     @apiName Dislike landmark (short)
+     @apiGroup Landmark
+     @apiDescription A route to dislike a <code>Landmarks</code> in the database, with limited information.
+
+     @apiParam token <code>token</code> is required
+     @apiParam landmarkId <code>landmarkId</code> is required
+
+     @apiSuccess landmark_collection The <code>Landmarks</code> is now liked.
+
+     @apiSuccessExample Example success response:
+     Congratulations, you are liker number: XXXXXXXX
+
+     @apiError No_token No <code>token</code> provided. <code>token</code> is required.
+     @apiError No_landmarkId No <code>landmarkId</code> provided. <code>landmarkId</code> is required.
+
+     @apiError Wrong_token Failed to authenticate <code>token</code>.
+     @apiError db_error Statuscode <code>500</code> and <code>error</code> are returned.
+     **/
     landmarkRouter.route('/:landmarkId/deletelike')
         .patch(function(req, res) {
             if (req.body._id)
