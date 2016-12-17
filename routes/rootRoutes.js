@@ -98,7 +98,7 @@ module.exports = function(app) {
     //handles post of login
     app.post('/login', passport.authenticate('local'), function(req, res) {
         res.redirect('/');
-    })
+    });
 
     /**
     @api {get} logout Logout
@@ -119,7 +119,7 @@ module.exports = function(app) {
     //simple test page to check if user is logged in
     app.get('/ping', isAuthenticated, function(req, res) {
         res.send("pong!", 200);
-    })
+    });
 
     /**
     @api {get} authenticate Authenticate
@@ -135,7 +135,7 @@ module.exports = function(app) {
         var user = new Account(req.user);
         var json = {
             "username": user.username
-        }
+        };
         var token = jwt.sign(json, 'ilovechocolate', {
             expiresIn: 1440
         });
@@ -348,7 +348,7 @@ module.exports = function(app) {
                     if(user){
                         var sign = {
                             "username": user.username
-                        }
+                        };
                         var date = new Date();
                         var month = date.getMonth();
                         date.setMonth(month + 3);
@@ -371,7 +371,7 @@ module.exports = function(app) {
                     }else{
                         var json = {
                             "error" : "The refreshtoken does not exist"
-                        }
+                        };
                         res.status(201).send(json);
                     }
                 }
@@ -379,7 +379,7 @@ module.exports = function(app) {
         } else{
             var json = {
                 "error" : "No refreshtoken given"
-            }
+            };
             res.status(201).send(json);
         }
     });
