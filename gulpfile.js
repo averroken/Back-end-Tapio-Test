@@ -91,16 +91,16 @@ gulp.task('apidocMaker', function() {
 
 gulp.task('minifyImages', function(callback) {
     console.log("minifyImages");
-    return gulp.src('uploads/uploadsOriginal/*.{jpg,png}')
+    return gulp.src('uploads/*.{jpg,png}')
         // .pipe(smushit())
         .pipe(imagemin())
         .pipe(clean())
-        .pipe(gulp.dest('uploads/compressed'));
+        .pipe(gulp.dest('images/compressed'));
 });
 
 gulp.task('uploadToDropbox', function() {
     console.log("uploadToDropbox");
-    var imageLocation = "uploads/compressed/" + process.env.original_name;
+    var imageLocation = "images/compressed/" + process.env.original_name;
     console.log("enviroment var: " + imageLocation);
     return Dropbox.upload(process.env.DROPBOX_TOKEN, imageLocation, "/" + process.env.original_name, {
         "mode": "add",
@@ -118,6 +118,6 @@ gulp.task('cleanUploads', function() {
 gulp.task('saveAndOptimizeImage', function(callback) {
     runSequence('minifyImages',
         'uploadToDropbox',
-        'cleanUploads',
+        // 'cleanUploads',
         callback);
 });
