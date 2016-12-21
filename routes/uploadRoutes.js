@@ -3,15 +3,17 @@ var app = express();
 var fs = require('fs');
 var Landmark = require('../models/landmarkModel');
 var multer = require('multer');
-var upload = multer(
-    {
-        limits: {
-            fieldNameSize: 999999999,
-            fieldSize: 999999999
-        },
-        dest: 'uploads/' }
-);
-module.exports = function (app) {
+var gulp = require('gulp');
+var upload = multer({
+    limits: {
+        fieldNameSize: 999999999,
+        fieldSize: 999999999
+    },
+    dest: 'uploads/'
+});
+require('../gulpfile.js');
+
+module.exports = function(app) {
     /**
      @api {post} upload?landmarkId Upload Image
      @apiName Upload Image
@@ -20,37 +22,49 @@ module.exports = function (app) {
 
      @apiParam {int} landmarkId The <code>landmarkId</code> of the landmark that the image is assigned to.
      */
-    app.post('/upload', upload.any(), function (req, res) {
-        var landmarkId = req.query.landmarkId || req.params.landmarkId ;
+    app.post('/upload', upload.any(), function(req, res) {
+        var landmarkId = req.query.landmarkId || req.params.landmarkId;
         console.log('LandmarkId given is: ' + landmarkId);
-        if(landmarkId) {
+        if (landmarkId) {
             Landmark.findOne({
                 _id: landmarkId
-            }, function (err, landmark) {
+            }, function(err, landmark) {
+                if (!req.files) {
+                    res.status(404).send({
+                        message: "No image given"
+                    });
+                    return;
+                }
                 console.log('Landmark found is: ' + landmark.Name);
                 console.log("file: " + req.files);
 
                 var tmp_path = req.files[0].path;
-
                 var target_path = 'uploads/' + req.files[0].originalname;
+                var original_name = req.files[0].originalname;
 
                 var src = fs.createReadStream(tmp_path);
                 var dest = fs.createWriteStream(target_path);
                 src.pipe(dest);
-                src.on('end', function () {
+                src.on('end', function() {
+                    process.env.original_name = original_name;
+                    compressImages();
                     res.send("ok: " + target_path);
                 });
-                src.on('error', function (err) {
-                    res.send({error: "upload failed"});
+                src.on('error', function(err) {
+                    res.send({
+                        error: "upload failed"
+                    });
                 });
                 landmark.Image = target_path;
                 landmark.save();
-                res.status(201).send(landmark);
             });
         } else {
             res.status(404);
             console.log("There is no landmarkId given");
         }
     });
-}
+};
 
+function compressImages() {
+    gulp.start('saveAndOptimizeImage');
+}
