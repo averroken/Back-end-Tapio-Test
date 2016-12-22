@@ -8,7 +8,13 @@ var gulp = require('gulp'),
     jsHint = require('gulp-jshint'),
     jsStylish = require('jshint-stylish'),
     uglify = require('gulp-uglify'),
-    apidoc = require('gulp-api-doc');
+    apidoc = require('gulp-api-doc'),
+    imagemin = require('gulp-imagemin'),
+    clean = require('gulp-clean'),
+    smushit = require('gulp-smushit'),
+    runSequence = require('run-sequence'),
+    Dropbox = require('dropbox2').Dropbox,
+    DropboxUser = require('dropbox2').User;
 
 
 const PATHS = {
@@ -82,4 +88,37 @@ gulp.task('apidocMaker', function() {
     gulp.src('Routes/*.js')
         .pipe(apidoc())
         .pipe(gulp.dest('ApiDoc/'))
+});
+
+gulp.task('minifyImages', function(callback) {
+    console.log("minifyImages");
+    return gulp.src('uploads/*.{jpg,png}')
+        .pipe(smushit())
+        // .pipe(imagemin())
+        .pipe(clean())
+        .pipe(gulp.dest('images/compressed'));
+});
+
+gulp.task('uploadToDropbox', function() {
+    console.log("uploadToDropbox");
+    var imageLocation = "images/compressed/" + process.env.original_name;
+    console.log("enviroment var: " + imageLocation);
+    return Dropbox.upload(process.env.DROPBOX_TOKEN, imageLocation, "/" + process.env.original_name, {
+        "mode": "add",
+        "autorename": true,
+        "mute": false
+    });
+});
+
+gulp.task('cleanUploads', function() {
+    console.log("cleanUploads");
+    return gulp.src('uploads/temp/*')
+        .pipe(clean());
+});
+
+gulp.task('saveAndOptimizeImage', function(callback) {
+    runSequence('minifyImages',
+        'uploadToDropbox',
+        // 'cleanUploads',
+        callback);
 });

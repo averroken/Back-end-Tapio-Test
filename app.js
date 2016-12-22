@@ -15,12 +15,16 @@ const flash = require('connect-flash');
 var app = express();
 app.set('port', process.env.PORT || 1337);
 app.set('views', __dirname + '/views');
-app.use('/uploads', express.static('uploads'));
+app.use('/landmarkImages', express.static(__dirname + '/images/compressed'));
 app.set('view engine', 'jade');
-app.set('view options', {layout: false});
+app.set('view options', {
+    layout: false
+});
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(methodOverride());
 app.use(cookieParser('ilovechocolate'));
 app.use(expressSession({
@@ -36,8 +40,11 @@ app.use(flash());
 //enviroment check (change for final deploy on heroku)
 var enviroment = process.env.NODE_ENV || 'development';
 if (enviroment == 'development') {
-    app.use(errorHandler({dumpExceptions: true, showStack: true}));
-}else if (enviroment == 'production') {
+    app.use(errorHandler({
+        dumpExceptions: true,
+        showStack: true
+    }));
+} else if (enviroment == 'production') {
     app.use(errorHandler());
 }
 
@@ -58,6 +65,6 @@ mongoose.connect(process.env.MONGODB_URI);
 require('./routeImplementation')(app);
 
 //starting the server
-app.listen(app.get('port'),function () {
+app.listen(app.get('port'), function() {
     console.log('Express server listening on port: ' + app.get('port'));
 });
