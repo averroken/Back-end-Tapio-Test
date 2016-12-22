@@ -11,6 +11,7 @@ var gulp = require('gulp'),
     apidoc = require('gulp-api-doc'),
     imagemin = require('gulp-imagemin'),
     clean = require('gulp-clean'),
+    smushit = require('gulp-smushit'),
     runSequence = require('run-sequence'),
     Dropbox = require('dropbox2').Dropbox,
     DropboxUser = require('dropbox2').User;
@@ -92,8 +93,8 @@ gulp.task('apidocMaker', function() {
 gulp.task('minifyImages', function(callback) {
     console.log("minifyImages");
     return gulp.src('uploads/*.{jpg,png}')
-        // .pipe(smushit())
-        .pipe(imagemin())
+        .pipe(smushit())
+        // .pipe(imagemin())
         .pipe(clean())
         .pipe(gulp.dest('images/compressed'));
 });
