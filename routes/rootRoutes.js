@@ -36,21 +36,20 @@ module.exports = function (app) {
         res.render('register', {});
     });
 
-    // TODO: add @apiParamExample
     /**
-     @api {post} register Register
-     @apiName Register
-     @apiGroup Default
-     @apiDescription Route to register users (both on web and android).
+    @api {post} register Register
+    @apiName Register
+    @apiGroup Default
+    @apiDescription Route to register users (both on web and android).
 
-     @apiParam {string} username The <code>name</code> the user wants to use
-     @apiParam {string} email The <code>email</code> the user wants to use
-     @apiParam {string} password The <code>password</code> the user wants to use
+    @apiParam {string} username The <code>name</code> the user wants to use
+    @apiParam {string} email The <code>email</code> the user wants to use
+    @apiParam {string} password The <code>password</code> the user wants to use
 
-     @apiSuccess redirect The user is redirected to the index ('/') page
+    @apiSuccess redirect The user is redirected to the index ('/') page
 
-     @apiError username_taken The user is redirected to the register ('/') page, and gets a message that says the username is already taken
-     **/
+    @apiError username_taken The user is redirected to the register ('/') page, and gets a message that says the username is already taken
+    **/
     //handles post on register
     app.post('/register', function (req, res) {
         Account.register(new Account({

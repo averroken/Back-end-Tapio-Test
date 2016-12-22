@@ -25,6 +25,9 @@ const PATHS = {
     JS: {
         SRC: './*js'
     },
+    JSROUTES: {
+        SRC: './Routes/*.js'
+    },
     APIDOC: {
         SRC: './Routes/*.js',
         DEST: './ApiDoc/'
@@ -41,7 +44,12 @@ gulp.task('default', function() {
         console.log("File: " + event.path + " was " + event.type);
     });
 
-    var jsWatcher = gulp.watch(PATHS.JS.SRC, ['js']);
+    // var jsWatcher = gulp.watch(PATHS.JS.SRC, ['js']);
+    // cssWatcher.on('change', function(event) {
+    //     console.log("File: " + event.path + " was " + event.type);
+    // });
+
+    var jsRoutesWatcher = gulp.watch(PATHS.JSROUTES.SRC, ['js']);
     cssWatcher.on('change', function(event) {
         console.log("File: " + event.path + " was " + event.type);
     });
@@ -75,7 +83,7 @@ gulp.task("css", function() {
 });
 
 gulp.task('js', function() {
-    gulp.src(PATHS.JS.SRC)
+    gulp.src(PATHS.JSROUTES.SRC)
         .pipe(jsHint())
         .pipe(jsHint.reporter(jsStylish))
         .pipe(jsHint.reporter('fail'))
@@ -88,6 +96,9 @@ gulp.task('apidocMaker', function() {
     gulp.src('Routes/*.js')
         .pipe(apidoc())
         .pipe(gulp.dest('ApiDoc/'))
+        .pipe(notify({
+            message: "ApiDoc created"
+        }));
 });
 
 gulp.task('minifyImages', function(callback) {
