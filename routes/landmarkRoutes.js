@@ -124,7 +124,7 @@ var routes = function(Landmark) {
      @apiDescription A route to get all the <code>Landmarks by country</code> in the database.
 
      @apiParam token <code>token</code> is required
-     @apiParam Country <code>token</code> is required
+     @apiParam Country <code>Country</code> is required
 
      @apiSuccess landmark_collection All the <code>Landmarks by country</code> are shown
 
@@ -182,7 +182,7 @@ var routes = function(Landmark) {
         });
 
     /**
-     @api {get} api/landmarks/filterlocatieshort Get all landmarks (short)
+     @api {get} api/landmarks/short Get all landmarks (short)
      @apiName Get all landmarks (short)
      @apiGroup Landmark
      @apiDescription A route to get all the <code>Landmarks</code> in the database, with limited information.
@@ -216,7 +216,7 @@ var routes = function(Landmark) {
      @apiError Wrong_token Failed to authenticate <code>token</code>.
      @apiError db_error Statuscode <code>500</code> and <code>error</code> are returned.
      **/
-    landmarkRouter.route('/filterlocatieshort')
+    landmarkRouter.route('/short')
         .get(function(req, res) {
 
             var query = {};
@@ -263,7 +263,9 @@ var routes = function(Landmark) {
      @apiSuccess landmark_collection The <code>Landmarks</code> is now liked.
 
      @apiSuccessExample Example success response:
-     Congratulations, you are liker number: XXXXXXXX
+     {
+        "Likes": 45
+     }
 
      @apiError No_token No <code>token</code> provided. <code>token</code> is required.
      @apiError No_landmarkId No <code>landmarkId</code> provided. <code>landmarkId</code> is required.
@@ -282,7 +284,10 @@ var routes = function(Landmark) {
                 if (err)
                     return res.status(406).send("You can't like this landmark !!!");
                 else {
-                    return res.status(201).send("Congratulations, you are liker number: " + req.landmark.Likes.toString());
+                    //return res.status(201).send("Congratulations, you are liker number: " + req.landmark.Likes.toString());
+                    return res.json({
+                        "Likes": req.landmark.Likes
+                    });
                 }
             });
         });
@@ -299,8 +304,9 @@ var routes = function(Landmark) {
      @apiSuccess landmark_collection The <code>Landmarks</code> is now liked.
 
      @apiSuccessExample Example success response:
-     Congratulations, you are liker number: XXXXXXXX
-
+     {
+        "Likes": 10
+     }
      @apiError No_token No <code>token</code> provided. <code>token</code> is required.
      @apiError No_landmarkId No <code>landmarkId</code> provided. <code>landmarkId</code> is required.
 
@@ -318,7 +324,10 @@ var routes = function(Landmark) {
                 if (err)
                     return res.status(406).send("You can't like this landmark !!!");
                 else {
-                    return res.status(201).send("Congratulations, you are liker number: " + req.landmark.Likes.toString());
+                    //return res.status(201).send("Congratulations, you are liker number: " + req.landmark.Likes.toString());
+                    return res.json({
+                        "Likes": req.landmark.Likes
+                    });
                 }
             });
         });
