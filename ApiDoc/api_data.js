@@ -122,7 +122,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Example success response:",
-          "content": "{\n    \"_id\" : ObjectId(\"5852e9262c59172e3c7ca7b0\"),\n    \"salt\" : \"a796c1687e6f3bda5fe2f4abeeee4dde6ea800436f3fb5f16ab9f7f25cee7ee4\",\n    \"hash\" : \"24ebf533127ade1e6bafaa053633437c6706b39bd2abd91ad883bd9a8b17cc509cbe2d0b9bf2e3492ed6da7e21f31399aae91dccb06a5707d44dec671cdc05eec0bbd70155ffa8cf75b697f9d7cb7959908ca26a6f7a6d4b0b3bd979c97c4a485ae9112470a2a8cb29fc3848d5243bd22389ddd14e02077522aba204a7c9e9c6f385c989a13dba02f58257e16a9210a1e3762dabeba1c423ebbd5c3571f5933f839e8641e560f0dbe6cd784f72a4c3c580c60f84a788aa9f27351da12c407436bd9bfdd8099266b353e2c55a6b6d6d8fe1823ad5ff847f52d9d4037337fdf9f0e33314df667281c2126be5f8fdf2b75e0bd3a70eed4ccc627b257419cb419c1bb3d06593f0d7bfdc1b09ec07cd2dc4f2ca0b7e981f89d12cd21fe23db3eb4775ea05554c9869c439c44f233df2d8efaf820494d5539063b0c276365e11a9be414344df9833ce4bca52cf2ac0cd99c30bd59a13288088404735b730467a3255b2aef06338f5ce4b37e5054678c90d103504f71e04ae0aaf4d5219dd8042e0af99e0b416df876b9cb963c0035d03bf508def9d148ab2f8681b5aa1ec5edf24a218e092318fd6fd94cb9850638aa385ca50e4a86ed78ed9bb623b8ff7617b452e0196b5652add698fe9293f393fd15986528cd509a92875e056c1abf0b665f0d8184b58aaa1e777b2c10dfe2bc0babf00d6df9a4382cc1d2a8c96e26cf044075d98\",\n    \"email\" : \"averroken100@gmail.com\",\n    \"authenticationMethod\" : \"Local\",\n    \"favourites\" : [\n        {\n            \"landmarkID\" : 666,\n            \"_id\" : ObjectId(\"5852f389e6c4911854951ba5\")\n        }\n    ],\n    \"image\" : \"Dit is dummy Shit\",\n    \"experience\" : 0,\n    \"level\" : 1,\n    \"gameCash\" : 0,\n    \"refreshTokenCreated\" : ISODate(\"2016-12-15T19:04:06.393Z\"),\n    \"refreshTokenExpires\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"refreshToken\" : \"null\",\n    \"PasswordChangedDate\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"userCreatedDate\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"socialLoginId\" : \"null\",\n    \"token\" : \"null\",\n    \"socialUsername\" : \"null\",\n    \"username\" : \"user\",\n    \"__v\" : 5\n}",
+          "content": "{\n   \"profile\": [\n       {\n           \"_id\": \"5852e9262c59172e3c7ca7b0\",\n           \"email\": \"averroken100@gmail.com\",\n           \"image\": \"Dit is dummy Shit\",\n           \"experience\": 0,\n           \"level\": 1,\n           \"gameCash\": 0,\n           \"socialUsername\": \"null\",\n           \"username\": \"user\"\n       }\n   ]\n}",
           "type": "json"
         }
       ]
@@ -182,6 +182,48 @@ define({ "api": [
             "optional": false,
             "field": "accountId",
             "description": "<p><code>accountId</code> is required to find one <code>Account</code></p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "email",
+            "description": "<p><code>email</code> is optional to change the <code>Account</code></p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "image",
+            "description": "<p><code>image</code> is optional to change the <code>Account</code></p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "experience",
+            "description": "<p><code>experience</code> is optional to change the <code>Account</code></p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "level",
+            "description": "<p><code>level</code> is optional to change the <code>Account</code></p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "gameCash",
+            "description": "<p><code>gameCash</code> is optional to change the <code>Account</code></p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "socialUsername",
+            "description": "<p><code>socialUsername</code> is optional to change the <code>Account</code></p>"
+          },
+          {
+            "group": "Parameter",
+            "optional": false,
+            "field": "username",
+            "description": "<p><code>username</code> is optional to change the <code>Account</code></p>"
           }
         ]
       }
@@ -200,7 +242,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Example success response:",
-          "content": "{\n    \"_id\" : ObjectId(\"5852e9262c59172e3c7ca7b0\"),\n    \"salt\" : \"a796c1687e6f3bda5fe2f4abeeee4dde6ea800436f3fb5f16ab9f7f25cee7ee4\",\n    \"hash\" : \"24ebf533127ade1e6bafaa053633437c6706b39bd2abd91ad883bd9a8b17cc509cbe2d0b9bf2e3492ed6da7e21f31399aae91dccb06a5707d44dec671cdc05eec0bbd70155ffa8cf75b697f9d7cb7959908ca26a6f7a6d4b0b3bd979c97c4a485ae9112470a2a8cb29fc3848d5243bd22389ddd14e02077522aba204a7c9e9c6f385c989a13dba02f58257e16a9210a1e3762dabeba1c423ebbd5c3571f5933f839e8641e560f0dbe6cd784f72a4c3c580c60f84a788aa9f27351da12c407436bd9bfdd8099266b353e2c55a6b6d6d8fe1823ad5ff847f52d9d4037337fdf9f0e33314df667281c2126be5f8fdf2b75e0bd3a70eed4ccc627b257419cb419c1bb3d06593f0d7bfdc1b09ec07cd2dc4f2ca0b7e981f89d12cd21fe23db3eb4775ea05554c9869c439c44f233df2d8efaf820494d5539063b0c276365e11a9be414344df9833ce4bca52cf2ac0cd99c30bd59a13288088404735b730467a3255b2aef06338f5ce4b37e5054678c90d103504f71e04ae0aaf4d5219dd8042e0af99e0b416df876b9cb963c0035d03bf508def9d148ab2f8681b5aa1ec5edf24a218e092318fd6fd94cb9850638aa385ca50e4a86ed78ed9bb623b8ff7617b452e0196b5652add698fe9293f393fd15986528cd509a92875e056c1abf0b665f0d8184b58aaa1e777b2c10dfe2bc0babf00d6df9a4382cc1d2a8c96e26cf044075d98\",\n    \"email\" : \"averroken100@gmail.com\",\n    \"authenticationMethod\" : \"Local\",\n    \"favourites\" : [\n        {\n            \"landmarkID\" : 666,\n            \"_id\" : ObjectId(\"5852f389e6c4911854951ba5\")\n        }\n    ],\n    \"image\" : \"Dit is dummy Shit\",\n    \"experience\" : 0,\n    \"level\" : 1,\n    \"gameCash\" : 0,\n    \"refreshTokenCreated\" : ISODate(\"2016-12-15T19:04:06.393Z\"),\n    \"refreshTokenExpires\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"refreshToken\" : \"null\",\n    \"PasswordChangedDate\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"userCreatedDate\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"socialLoginId\" : \"null\",\n    \"token\" : \"null\",\n    \"socialUsername\" : \"null\",\n    \"username\" : \"user\",\n    \"__v\" : 5\n}",
+          "content": "{\n   \"Succeed\": \"Account succesfully updated by ID\"\n}",
           "type": "json"
         }
       ]
@@ -225,114 +267,6 @@ define({ "api": [
             "optional": false,
             "field": "No_accountId",
             "description": "<p>No <code>accountId</code> provided. <code>accountId</code> is required.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "Not_found",
-            "description": "<p>Statuscode <code>404</code> and message &quot;<code>no landmark found</code>&quot; are returned.</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "C:/Users/averr/Documents/01 - Antoon/3NMCT/CrossPlatformApps/Project/BackendProject/Back-end-Tapio-Test/Routes/accountRoutes.js",
-    "groupTitle": "Account"
-  },
-  {
-    "type": "post",
-    "url": "api/account/",
-    "title": "Post account",
-    "name": "Post_account",
-    "group": "Account",
-    "description": "<p>A route to post one <code>Account</code> from the database, based on given <code>Id</code>.</p>",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "token",
-            "description": "<p><code>token</code> is required</p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "email",
-            "description": "<p><code>email</code> is required to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "gameCash",
-            "description": "<p><code>gameCash</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "level",
-            "description": "<p><code>level</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "experience",
-            "description": "<p><code>experience</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "image",
-            "description": "<p><code>image</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "name",
-            "description": "<p><code>name</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "firstname",
-            "description": "<p><code>firstname</code> is optional to find one <code>Account</code></p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "Account",
-            "description": "<p><code>Account</code> is shown.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Example success response:",
-          "content": "{\n   \"Succeed\": \"Account succesfully created\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "No_token",
-            "description": "<p>No <code>token</code> provided. <code>token</code> is required.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "Wrong_token",
-            "description": "<p>Failed to authenticate <code>token</code>.</p>"
           },
           {
             "group": "Error 4xx",
@@ -411,114 +345,6 @@ define({ "api": [
             "optional": false,
             "field": "No_accountId",
             "description": "<p>No <code>accountId</code> provided. <code>accountId</code> is required.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "Wrong_token",
-            "description": "<p>Failed to authenticate <code>token</code>.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "Not_found",
-            "description": "<p>Statuscode <code>404</code> and message &quot;<code>no landmark found</code>&quot; are returned.</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "C:/Users/averr/Documents/01 - Antoon/3NMCT/CrossPlatformApps/Project/BackendProject/Back-end-Tapio-Test/Routes/accountRoutes.js",
-    "groupTitle": "Account"
-  },
-  {
-    "type": "get",
-    "url": "api/account/",
-    "title": "get account",
-    "name": "get_account",
-    "group": "Account",
-    "description": "<p>A route to get one <code>Account</code> from the database, based on given <code>Id</code>.</p>",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "token",
-            "description": "<p><code>token</code> is required</p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "email",
-            "description": "<p><code>email</code> is required to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "gameCash",
-            "description": "<p><code>gameCash</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "level",
-            "description": "<p><code>level</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "experience",
-            "description": "<p><code>experience</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "image",
-            "description": "<p><code>image</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "name",
-            "description": "<p><code>name</code> is optional to find one <code>Account</code></p>"
-          },
-          {
-            "group": "Parameter",
-            "optional": false,
-            "field": "firstname",
-            "description": "<p><code>firstname</code> is optional to find one <code>Account</code></p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "Account",
-            "description": "<p><code>Account</code> is shown.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Example success response:",
-          "content": "{\n    \"_id\" : ObjectId(\"5852e9262c59172e3c7ca7b0\"),\n    \"salt\" : \"a796c1687e6f3bda5fe2f4abeeee4dde6ea800436f3fb5f16ab9f7f25cee7ee4\",\n    \"hash\" : \"24ebf533127ade1e6bafaa053633437c6706b39bd2abd91ad883bd9a8b17cc509cbe2d0b9bf2e3492ed6da7e21f31399aae91dccb06a5707d44dec671cdc05eec0bbd70155ffa8cf75b697f9d7cb7959908ca26a6f7a6d4b0b3bd979c97c4a485ae9112470a2a8cb29fc3848d5243bd22389ddd14e02077522aba204a7c9e9c6f385c989a13dba02f58257e16a9210a1e3762dabeba1c423ebbd5c3571f5933f839e8641e560f0dbe6cd784f72a4c3c580c60f84a788aa9f27351da12c407436bd9bfdd8099266b353e2c55a6b6d6d8fe1823ad5ff847f52d9d4037337fdf9f0e33314df667281c2126be5f8fdf2b75e0bd3a70eed4ccc627b257419cb419c1bb3d06593f0d7bfdc1b09ec07cd2dc4f2ca0b7e981f89d12cd21fe23db3eb4775ea05554c9869c439c44f233df2d8efaf820494d5539063b0c276365e11a9be414344df9833ce4bca52cf2ac0cd99c30bd59a13288088404735b730467a3255b2aef06338f5ce4b37e5054678c90d103504f71e04ae0aaf4d5219dd8042e0af99e0b416df876b9cb963c0035d03bf508def9d148ab2f8681b5aa1ec5edf24a218e092318fd6fd94cb9850638aa385ca50e4a86ed78ed9bb623b8ff7617b452e0196b5652add698fe9293f393fd15986528cd509a92875e056c1abf0b665f0d8184b58aaa1e777b2c10dfe2bc0babf00d6df9a4382cc1d2a8c96e26cf044075d98\",\n    \"email\" : \"averroken100@gmail.com\",\n    \"authenticationMethod\" : \"Local\",\n    \"favourites\" : [\n        {\n            \"landmarkID\" : 666,\n            \"_id\" : ObjectId(\"5852f389e6c4911854951ba5\")\n        }\n    ],\n    \"image\" : \"Dit is dummy Shit\",\n    \"experience\" : 0,\n    \"level\" : 1,\n    \"gameCash\" : 0,\n    \"refreshTokenCreated\" : ISODate(\"2016-12-15T19:04:06.393Z\"),\n    \"refreshTokenExpires\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"refreshToken\" : \"null\",\n    \"PasswordChangedDate\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"userCreatedDate\" : ISODate(\"2016-12-15T19:04:06.392Z\"),\n    \"socialLoginId\" : \"null\",\n    \"token\" : \"null\",\n    \"socialUsername\" : \"null\",\n    \"username\" : \"user\",\n    \"__v\" : 5\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "No_token",
-            "description": "<p>No <code>token</code> provided. <code>token</code> is required.</p>"
           },
           {
             "group": "Error 4xx",
