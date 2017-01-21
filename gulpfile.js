@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     jsStylish = require('jshint-stylish'),
     uglify = require('gulp-uglify'),
     apidoc = require('gulp-api-doc');
+var notifier = require('node-notifier');
 
 
 const PATHS = {
@@ -32,9 +33,9 @@ const AUTOPREFIXOPTIONS = {
     browsers: ['last 2 versions']
 };
 
-gulp.task('default', function() {
+gulp.task('default', function () {
     var cssWatcher = gulp.watch(PATHS.CSS.SRC, ['css']);
-    cssWatcher.on('change', function(event) {
+    cssWatcher.on('change', function (event) {
         console.log("File: " + event.path + " was " + event.type);
     });
 
@@ -44,19 +45,20 @@ gulp.task('default', function() {
     // });
 
     var jsRoutesWatcher = gulp.watch(PATHS.JSROUTES.SRC, ['js']);
-    cssWatcher.on('change', function(event) {
+    cssWatcher.on('change', function (event) {
         console.log("File: " + event.path + " was " + event.type);
     });
 });
 
-gulp.task('apidoc', function() {
+gulp.task('apidoc', function () {
     var routesWatcher = gulp.watch(PATHS.APIDOC.SRC, ['apidocMaker']);
-    routesWatcher.on('change', function(event) {
+    routesWatcher.on('change', function (event) {
         console.log("File: " + event.path + " was " + event.type);
+        notifier.notify({message: "ApiDoc created"});
     });
 });
 
-gulp.task("css", function() {
+gulp.task("css", function () {
     gulp.src(PATHS.CSS.SRC)
         .pipe(sourcemaps.init())
         .pipe(autoprefixer(AUTOPREFIXOPTIONS))
@@ -65,7 +67,7 @@ gulp.task("css", function() {
         .pipe(cleanCSS({
             debug: true,
             compatibility: '*'
-        }, function(details) {
+        }, function (details) {
             console.log(details.name + ": " + details.stats.originalSize);
             console.log(details.name + ": " + details.stats.minifiedSize);
         }))
@@ -76,7 +78,7 @@ gulp.task("css", function() {
         }));
 });
 
-gulp.task('js', function() {
+gulp.task('js', function () {
     gulp.src(PATHS.JSROUTES.SRC)
         .pipe(jsHint())
         .pipe(jsHint.reporter(jsStylish))
@@ -86,11 +88,8 @@ gulp.task('js', function() {
         }));
 });
 
-gulp.task('apidocMaker', function() {
+gulp.task('apidocMaker', function () {
     gulp.src('Routes/*.js')
         .pipe(apidoc())
         .pipe(gulp.dest('ApiDoc/'))
-        .pipe(notify({
-            message: "ApiDoc created"
-        }));
 });
