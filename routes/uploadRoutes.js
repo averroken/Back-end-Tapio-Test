@@ -48,7 +48,10 @@ module.exports = function(app) {
                 src.on('end', function() {
                     process.env.original_name = original_name;
                     compressImages();
-                    res.send("ok: " + target_path);
+                    res.status(200);
+                    res.send({
+                        message: "ok: " + target_path
+                    });
                 });
                 src.on('error', function(err) {
                     res.send({
