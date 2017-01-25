@@ -41,9 +41,7 @@ var routes = function(Landmark) {
                 if (err)
                     res.status(500).send(err);
                 else
-                    res.json({
-                        "landmarks": landmarks
-                    });
+                    res.send(landmarks);
             });
         });
 
