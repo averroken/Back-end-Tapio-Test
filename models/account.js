@@ -26,7 +26,7 @@ var Account = new Schema({
     experience: {type: Number, required: true, default: 0},
     image: {type: String, default: "Dit is dummy Shit"},
     favourites: [{
-        landmarkID: Number
+        landmarkID: String
     }]
 });
 

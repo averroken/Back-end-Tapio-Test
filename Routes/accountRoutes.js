@@ -2,21 +2,21 @@ var express = require('express');
 
 var routes = function (Account) {
     var accountRouter = express.Router();
-    accountRouter.use('/:accountId', function(req,res,next){
-            Account.findById(req.params.accountId, function(err,account){
-                if(err)
-                    res.status(500).send(err);
-                else if(account)
-                {
-                    req.account = account;
-                    next();
-                }
-                else
-                {
-                    res.status(404).send('no account found');
-                }
-            });
-        });
+    // accountRouter.use('/:accountId', function(req,res,next){
+    //         Account.findById(req.params.accountId, function(err,account){
+    //             if(err)
+    //                 res.status(500).send(err);
+    //             else if(account)
+    //             {
+    //                 req.account = account;
+    //                 next();
+    //             }
+    //             else
+    //             {
+    //                 res.status(404).send('no account found');
+    //             }
+    //         });
+    //     });
 
     /**
      @api {get} {accountId} get account by ID
@@ -80,29 +80,64 @@ var routes = function (Account) {
      @apiError No_accountId No <code>accountId</code> provided. <code>accountId</code> is required.
      @apiError Not_found Statuscode <code>404</code> and message "<code>no landmark found</code>" are returned.
      **/
-    accountRouter.route('/:accountId')
-        .get(function (req, res) {
-
-            var query = {};
-
-            Account.find(query, {
-                "email": 1,
-                "socialUsername": 1,
-                "username": 1,
-                "firstName": 1,
-                "gameCash": 1,
-                "level": 1,
-                "experience": 1,
-                "image": 1
-            }, function (err, profile) {
-                if (err)
-                    res.status(500).send(err);
-                else
-                    res.json({
-                        "profile": profile
-                    });
-            });
+    accountRouter.route('/:id').get(function (req, res) {
+        Account.findById(req.params.id, {
+            "email": 1,
+            "socialUsername": 1,
+            "username": 1,
+            "firstName": 1,
+            "gameCash": 1,
+            "level": 1,
+            "experience": 1,
+            "image": 1
+        }, function (err, account) {
+            if (err) {
+                res.status(404).send(err);
+            } else {
+                res.json({
+                    "profile": account
+                })
+            }
         });
+
+        // var query = {"id": req.params.id};
+        //
+        // Account.find(query, {
+        //     "email": 1,
+        //     "socialUsername": 1,
+        //     "username": 1,
+        //     "firstName": 1,
+        //     "gameCash": 1,
+        //     "level": 1,
+        //     "experience": 1,
+        //     "image": 1
+        // }, function (err, profile) {
+        //     if (err)
+        //         res.status(500).send(err);
+        //     else
+        //         res.json({
+        //             "profile": profile
+        //         });
+        // });
+    });
+
+    accountRouter.route('/:id/favorites').get(function (req, res) {
+        Account.findById(req.params.id, {
+            "email": 1,
+            "username": 1,
+            "favourites": 1
+        }, function (err, account) {
+            if (err) {
+                res.status(404).send(err);
+            } else {
+
+                res.json({
+                    "profile": account
+                })
+            }
+        });
+    });
+
 
     /**
      @api {patch} {accountId}/addFavouriteLandmark?landmarkid={landmarkid} Add Favorite Landmark
@@ -126,36 +161,35 @@ var routes = function (Account) {
      @apiError Wrong_token Failed to authenticate <code>token</code>.
      @apiError Not_found Statuscode <code>404</code> and message "<code>no landmark found</code>" are returned.
      **/
-    accountRouter.route('/:accountId/addFavouriteLandmark')
-        /* Example API CALL */
-        //localhost:1337/api/account/584fc0f39efc92183c26e857/addFavouriteLandmark?landmarkid=98745632222
-        .patch(function(req, res) {
-            Account.findById(req.params.accountId, function(err,account){
-                if(err)
+    accountRouter.route('/:accountId/addFav')
+    /* Example API CALL */
+    //localhost:1337/api/account/584fc0f39efc92183c26e857/addFavouriteLandmark?landmarkid=98745632222
+        .get(function (req, res) {
+            Account.findById(req.params.accountId, function (err, account) {
+                if (err)
                     res.status(500).send(err);
-                else if(account)
-                {
+                else if (account) {
                     req.account = account;
                     var landmarkid = req.query.landmarkid;
-                    if(landmarkid){
+                    if (landmarkid) {
                         req.account.favourites.push({"landmarkID": landmarkid});
                         //console.log(req.account.favourites);
-                        req.account.save(function(err) {
+                        req.account.save(function (err) {
                             if (err) {
                                 //throw err;
-                                return res.status(406).send("Adding ID to account is failed!");
+                                res.status(406).send("Adding ID to account is failed!" + err);
+                            }else{
+                                res.status(201).send("Update succeeded: " + req.params.landmarkid);
                             }
                         });
-                        return res.status(201).send("Update succeeded: " + req.query.landmarkid);
                     } else {
                         //res.status(406).send("I need the ID of the landmark you liked.");
-                        return res.json({
-                            "Succeed": "Landmark succesfully added by your favourites"
-                        });
+                        // return res.json({
+                        //     "Succeed": "Landmark succesfully added by your favourites"
+                        // });
                     }
                 }
-                else
-                {
+                else {
                     res.status(404).send('no account found');
                 }
             });
@@ -184,23 +218,22 @@ var routes = function (Account) {
      @apiError Wrong_token Failed to authenticate <code>token</code>.
      @apiError Not_found Statuscode <code>404</code> and message "<code>no landmark found</code>" are returned.
      **/
-    accountRouter.route('/:accountId/removeFavouriteLandmark')
-        .patch(function(req, res) {
-            Account.findById(req.params.accountId, function(err,account){
-                if(err)
+    accountRouter.route('/:accountId/delFav')
+        .patch(function (req, res) {
+            Account.findById(req.params.accountId, function (err, account) {
+                if (err)
                     res.status(500).send(err);
-                else if(account)
-                {
+                else if (account) {
                     req.account = account;
                     var landmarkid = req.query.landmarkid;
-                    if(landmarkid){
+                    if (landmarkid) {
                         var favourites = account.favourites;
                         var newfavorites = [];
                         //console.log(landmarkid);
-                        for(var i = 0;i<favourites.length;i++){
+                        for (var i = 0; i < favourites.length; i++) {
                             var favorite = favourites[i];
                             //console.log(favorite.landmarkID);
-                            if(favorite.landmarkID == landmarkid){
+                            if (favorite.landmarkID == landmarkid) {
                                 //console.log(i + ":" + favorite);
                             } else {
                                 newfavorites.push(favorite);
@@ -208,7 +241,7 @@ var routes = function (Account) {
                         }
                         //console.log(newfavorites);
                         account.favourites = newfavorites;
-                        account.save(function(err) {
+                        account.save(function (err) {
                             if (err) {
                                 //throw err;
                                 return res.status(406).send("Adding ID to account is failed!");
@@ -222,8 +255,7 @@ var routes = function (Account) {
                         res.status(406).send("I need the ID of the landmark you liked.");
                     }
                 }
-                else
-                {
+                else {
                     res.status(404).send('no account found');
                 }
             });
