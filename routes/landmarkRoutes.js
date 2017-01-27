@@ -104,7 +104,6 @@ var routes = function(Landmark) {
             });
         })
         .get(function(req, res) {
-
             var query = {};
 
             Landmark.find(query, function(err, landmarks) {
@@ -115,6 +114,19 @@ var routes = function(Landmark) {
             });
         });
 
+    landmarkRouter.route('/map').get(function (req, res) {
+        var query = {};
+
+        Landmark.find(query, function(err, landmarks) {
+            if (err)
+                res.status(500).send(err);
+            else
+                res.json({
+                    "landmarks":landmarks
+                });
+        });
+    });
+
     landmarkRouter.route('/recent')
         .get(function(req, res) {
 
@@ -124,9 +136,7 @@ var routes = function(Landmark) {
                 if (err)
                     res.status(500).send(err);
                 else{
-                    res.json({
-                        "landmarks": landmarks
-                    });
+                    res.send(landmarks);
                 }
 
             });

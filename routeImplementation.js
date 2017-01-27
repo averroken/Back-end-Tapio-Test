@@ -12,7 +12,7 @@ var testRoutes = require('./routes/testRoutes.js');
 var uploadRoutes = require('./routes/uploadRoutes.js');
 var rootRoutes = require('./routes/rootRoutes.js');
 var landmarkRoutes = require('./routes/landmarkRoutes')(Landmark);
-var accountRoutes = require('./routes/accountRoutes')(Account);
+var accountRoutes = require('./routes/accountRoutes')(Account, Landmark);
 
 module.exports = function(app) {
     require('./routes/uploadRoutes')(app);

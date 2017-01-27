@@ -1,6 +1,6 @@
 var express = require('express');
 
-var routes = function (Account) {
+var routes = function (Account, Landmark) {
     var accountRouter = express.Router();
     // accountRouter.use('/:accountId', function(req,res,next){
     //         Account.findById(req.params.accountId, function(err,account){
@@ -123,17 +123,36 @@ var routes = function (Account) {
 
     accountRouter.route('/:id/favorites').get(function (req, res) {
         Account.findById(req.params.id, {
-            "email": 1,
-            "username": 1,
             "favourites": 1
         }, function (err, account) {
             if (err) {
                 res.status(404).send(err);
             } else {
+                // res.send(account.favourites);
+                console.log(account.favourites);
 
-                res.json({
-                    "profile": account
-                })
+                var landmarks = new Array;
+
+                for(i = 0; i < account.favourites.length; i ++){
+                    console.log("searching: " + account.favourites[i].landmarkID);
+                    Landmark.findById(account.favourites[i].landmarkID, function (err, landmark) {
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+                        if (landmark) {
+                            console.log("LANDMARK FOUND");
+                            landmarks.push(landmark);
+                            console.log(landmarks);
+                        }
+
+                        if(i = account.favourites.length){
+                            console.log("landmarks");
+                            console.log(landmarks);
+                            res.send(landmarks);
+                        }
+                    });
+                }
             }
         });
     });
@@ -165,6 +184,7 @@ var routes = function (Account) {
     /* Example API CALL */
     //localhost:1337/api/account/584fc0f39efc92183c26e857/addFavouriteLandmark?landmarkid=98745632222
         .get(function (req, res) {
+
             Account.findById(req.params.accountId, function (err, account) {
                 if (err)
                     res.status(500).send(err);
@@ -198,6 +218,85 @@ var routes = function (Account) {
                     res.status(404).send('no account found');
                 }
             });
+
+            // Account.findById(req.params.accountId, function (err, account) {
+            //         if (err)
+            //             res.status(500).send(err);
+            //         else if (account) {
+            //             req.account = account;
+            //             var landmarkid = req.query.landmarkid;
+            //             if (landmarkid) {
+            //
+            //                 Landmark.findByIdAndUpdate(landmarkid, {
+            //                     $push: {
+            //                         "_id": landmark._id,
+            //                         "Country": landmark.Country,
+            //                         "Lat": landmark.Lat,
+            //                         "Long": landmark.Long,
+            //                         "Name": landmark.Name,
+            //                         "Type": landmark.Type,
+            //                         "Image": landmark.Image                                }}, function (err, movie) {
+            //                     // Landmark.findB/**/yId(landmarkid, function (err, landmark) {
+            //                     if (err) return;
+            //                     if (landmark) {
+            //                         console.log("LANDMARK --------------");
+            //                         console.log(landmark);
+            //                         console.log("LANDMARK --------------");
+            //                         req.account.favourites.push({
+            //                             "_id": landmark._id,
+            //                             "Country": landmark.Country,
+            //                             "Lat": landmark.Lat,
+            //                             "Long": landmark.Long,
+            //                             "Name": landmark.Name,
+            //                             "Type": landmark.Type,
+            //                             "Image": landmark.Image
+            //                         });
+            //
+            //                         req.account.save(function (err) {
+            //                             if (err) {
+            //                                 //throw err;
+            //                                 res.status(406).send("Adding ID to account is failed!" + err);
+            //                             } else {
+            //                                 var json = {
+            //                                     "awnser": "Successfully favorited landmark",
+            //                                     "message": "OK"
+            //                                 };
+            //                                 console.log(account.favourites);
+            //                                 res.status(201).json(json);
+            //                                 // res.status(201).send("Update succeeded: " + req.params.landmarkid);
+            //                             }
+            //                         });
+            //                     }
+            //                 })
+            //
+            //                 // req.account.favourites.push({"landmarkID": landmarkid});
+            //                 //console.log(req.account.favourites);
+            //                 // req.account.save(function (err) {
+            //                 //     if (err) {
+            //                 //         //throw err;
+            //                 //         res.status(406).send("Adding ID to account is failed!" + err);
+            //                 //     }else{
+            //                 //         var json = {
+            //                 //             "awnser": "Successfully favorited landmark",
+            //                 //             "message": "OK"
+            //                 //         };
+            //                 //         res.status(201).json(json);
+            //                 //         // res.status(201).send("Update succeeded: " + req.params.landmarkid);
+            //                 //     }
+            //                 // });
+            //             }
+            //             else {
+            //                 //res.status(406).send("I need the ID of the landmark you liked.");
+            //                 // return res.json({
+            //                 //     "Succeed": "Landmark succesfully added by your favourites"
+            //                 // });
+            //             }
+            //         }
+            //         else {
+            //             res.status(404).send('no account found');
+            //         }
+            //     }
+            // );
         });
 
     /**
