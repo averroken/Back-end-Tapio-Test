@@ -115,6 +115,23 @@ var routes = function(Landmark) {
             });
         });
 
+    landmarkRouter.route('/recent')
+        .get(function(req, res) {
+
+            var query = {};
+
+            Landmark.find(query, function(err, landmarks) {
+                if (err)
+                    res.status(500).send(err);
+                else{
+                    res.json({
+                        "landmarks": landmarks
+                    });
+                }
+
+            });
+        });
+
     /**
      @api {get} api/landmarks/filterlocatie/ Get all landmarks by country
      @apiName Get all landmarks by country

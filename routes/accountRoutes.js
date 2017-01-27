@@ -179,7 +179,12 @@ var routes = function (Account) {
                                 //throw err;
                                 res.status(406).send("Adding ID to account is failed!" + err);
                             }else{
-                                res.status(201).send("Update succeeded: " + req.params.landmarkid);
+                                var json = {
+                                    "awnser": "Successfully favorited landmark",
+                                    "message": "OK"
+                                };
+                                res.status(201).json(json);
+                                // res.status(201).send("Update succeeded: " + req.params.landmarkid);
                             }
                         });
                     } else {
