@@ -129,9 +129,11 @@ var routes = function (Account, Landmark) {
                 res.status(404).send(err);
             } else {
                 // res.send(account.favourites);
+                if (account == null) return;
                 console.log(account.favourites);
 
                 var landmarks = new Array;
+                var sent = false;
 
                 for(i = 0; i < account.favourites.length; i ++){
                     console.log("searching: " + account.favourites[i].landmarkID);
@@ -146,10 +148,11 @@ var routes = function (Account, Landmark) {
                             console.log(landmarks);
                         }
 
-                        if(i = account.favourites.length){
+                        if(i = account.favourites.length && !sent){
+                            sent = true;
                             console.log("landmarks");
                             console.log(landmarks);
-                            res.send(landmarks);
+                            return res.send(landmarks);
                         }
                     });
                 }
