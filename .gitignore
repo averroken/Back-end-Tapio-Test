@@ -39,3 +39,5 @@ jspm_packages
 oauthCredentials.js
 yarn.lock
 .idea/
+.idea/Back-end-Tapio-Test.iml
+*.iml

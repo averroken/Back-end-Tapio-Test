@@ -18,8 +18,16 @@ var Account = new Schema({
     resetPasswordExpires: Date,
     refreshToken: {type:String, unique: true, default: 'null'},
     refreshTokenExpires: {type: Date, default: Date.now},
-    refreshTokenCreated: {type: Date, default:Date.now}
-
+    refreshTokenCreated: {type: Date, default:Date.now},
+    name: {type: String},
+    firstName: {type: String},
+    gameCash: {type: Number, required: true,default: 0},
+    level: {type: Number, required: true, default: 1},
+    experience: {type: Number, required: true, default: 0},
+    image: {type: String, default: "Dit is dummy Shit"},
+    favourites: [{
+        landmarkID: String
+    }]
 });
 
 Account.plugin(passportLocalMongoose);

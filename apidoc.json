@@ -1,0 +1,12 @@
+{
+  "name": "Tapio",
+  "version": "0.1.0",
+  "description": "API explorer for Tapio",
+  "title": "Tapio: API Expolorer",
+  "url" : "https://back-end-tapio-test.herokuapp.com/",
+  "order": [
+    "Default",
+    "Token",
+    "Android"
+  ]
+}
